@@ -27,8 +27,11 @@ plot(t_cianjur_kepala$harga/1000,
      #lty=5
      )
 
-lm_t_cianjur_kepala <- (t_cianjur_kepala$harga ~ c(1:12))
-abline(coef(lm_t_cianjur_kepala),lwd=2)
+#lm_t_cianjur_kepala <- (t_cianjur_kepala$harga ~ c(1:12))
+#abline(coef(lm_t_cianjur_kepala),lwd=2)
+
+mean_t_cianjur_kepala <- mean(t_cianjur_kepala$harga)
+sd_t_cianjur_kepala <- sd(t_cianjur_kepala$harga)
 
 # Plotting GLOBAL
 hist(t_beras$harga/1000,
