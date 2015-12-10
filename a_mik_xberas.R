@@ -7,8 +7,9 @@ t_beras <- data.frame(bulan,jenis_beras,xberas$harga)
 names(t_beras) <- header
 sd_harga <- sd(t_beras$harga)
 mean_harga <- mean(t_beras$harga)
-bulan <- c('Januari','Februari','Maret','April','Mei','Juni',
-           'Juli','Agustus','September','Oktober','Nopember','Desember')
+bulan <- c('January','February','March','April','Mey','June',
+           'July','August','September','Oktober','November','December')
+bulan <- vapply(bulan, as.Date, character(1), format='%B')
 m_header <- c('bulan','harga')
 
 # Tabel per Jenis Beras
