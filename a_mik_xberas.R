@@ -1,4 +1,4 @@
-xberas <- read.csv('./cluster_data/mikro_data_komoditas_beras/PERDAGANGAN_perkembangan_harga_rata_rata_beras_grosir_di_pasar_induk_cipinang_pic_menurut_jenis_beras_2011.csv',
+zxberas <- read.csv('./cluster_data/mikro_data_komoditas_beras/PERDAGANGAN_perkembangan_harga_rata_rata_beras_grosir_di_pasar_induk_cipinang_pic_menurut_jenis_beras_2011.csv',
                     stringsAsFactors = FALSE)
 bulan <- factor(xberas$bulan, ordered=FALSE)
 jenis_beras <- factor(xberas$jenis_beras, ordered=FALSE)
