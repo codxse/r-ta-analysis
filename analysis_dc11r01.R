@@ -49,3 +49,22 @@ lk4 <- subset(lk4,select = -c(2,3))
 # Lowongan Yang Ada (I-II)
 lk5 <- subset(df,df$indikator == 'Lowongan Yang Ada (I-II)')
 lk5 <- subset(lk5,select = -c(2,3))
+
+## Buat data.frame baru, join semua lk dan pk
+df2_date <- c(as.Date(paste0(2012,'-01-01')),
+              as.Date(paste0(2011,'-01-01')),
+              as.Date(paste0(2010,'-01-01')),
+              as.Date(paste0(2009,'-01-01')))
+df2 <- data.frame(df2_date,pk1$jumlah,pk2$jumlah,pk3$jumlah,
+                  pk4$jumlah,lk1$jumlah,lk2$jumlah,lk3$jumlah,lk4$jumlah,lk5$jumlah)
+df2_head <- c('tahun',
+              'pencari_kerja_yang_belum_ditempatkan_awal_tahun',
+              'pencari_kerja_yang_terdaftar',
+              'pencari_kerja_yang_ditempatkan',
+              'pencari_kerja_yang_dihapus',
+              'lowongan_yang_belum_dipenuhi',
+              'lowongan_yang_terdaftar',
+              'lowongan_yang_dipenuhi',
+              'lowongan_yang_dihapus',
+              'lowongan_yang_ada_i_ii')
+names(df2) <- df2_head
