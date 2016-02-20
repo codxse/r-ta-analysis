@@ -13,10 +13,10 @@ library(ggvis)
 
 # buka csv
 fpath = file.path('rawdata/dc11_data_ketenaga_kerjaan/R01_PEREKONOMIAN_ikhtisar_statistik_antar_kerja_2009_2013.csv')
-df <- read.csv(fpath,stringsAsFactors = FALSE)
+df <- read.csv(fpath,stringsAsFactors = FALSE) %>%
+      arrange(tahun)
 df$tahun <- as.character(df$tahun)
 df$jumlah <- as.numeric(df$jumlah)
-df <- arrange(df, tahun)
 
 # ini null value NA
 df$rincian_indikator <- c('pencari_kerja_yang_belum_ditempatkan_awal_tahun',
