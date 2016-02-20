@@ -6,46 +6,119 @@
 #   tahun, pk_belum_ditempatkan_awal_tahun, pk_terdaftar, pk_ditempatkan, pk_dihapus,
 #   lk_belum_dipenuhi, lk_terdaftar, lk_dipenuhi, lk_dihapus, lk_ada_untuk_i_ii
 
+getwd()
+setwd('~/Workspaces/r-ta-analysys')
+library('dplyr')
+
 # buka csv
-fpath = file.path('~/Workspaces/r-ta-analysys/rawdata/dc11_data_ketenaga_kerjaan/R01_PEREKONOMIAN_ikhtisar_statistik_antar_kerja_2010_2012.csv')
+fpath = file.path('rawdata/dc11_data_ketenaga_kerjaan/R01_PEREKONOMIAN_ikhtisar_statistik_antar_kerja_2010_2012.csv')
 df <- read.csv(fpath,stringsAsFactors = FALSE)
 df$jumlah <- replace(df$jumlah, c(31,35), 0)
 df$tahun <- as.character(df$tahun)
 df$jumlah <- as.numeric(df$jumlah)
 
+# ini null value NA
+df$rincian_indikator <- c('pencari_kerja_yang_belum_ditempatkan_awal_tahun',
+                          'pencari_kerja_yang_terdaftar',
+                          'pencari_kerja_yang_ditempatkan',
+                          'pencari_kerja_yang_dihapus',
+                          'lowongan_yang_belum_dipenuhi',
+                          'lowongan_yang_terdaftar',
+                          'lowongan_yang_dipenuhi',
+                          'lowongan_yang_dihapus',
+                          'lowongan_yang_ada_i_ii')
+df <- select(df,-2)
+
 ## subset row yang sama
 # Pencari Kerja yang belum ditempatkan Awal Tahun
-pk1 <- subset(df,df$rincian_indikator == 'Pencari Kerja yang belum ditempatkan Awal Tahun')
-pk1 <- subset(pk1,select = -c(2,3))
+pk1 <- df %>%
+       filter(rincian_indikator == 'pencari_kerja_yang_belum_ditempatkan_awal_tahun') %>%
+       select(-2)
 
 # Pencari Kerja yang Terdaftar
-pk2 <- subset(df,df$rincian_indikator == 'Pencari Kerja yang Terdaftar')
-pk2 <- subset(pk2,select = -c(2,3))
+pk2 <- df %>%
+       filter(rincian_indikator == 'pencari_kerja_yang_terdaftar') %>%
+       select(-2)
 
 # Pencari Kerja yang ditempatkan
-pk3 <- subset(df,df$rincian_indikator == 'Pencari Kerja yang ditempatkan')
-pk3 <- subset(pk3,select = -c(2,3))
+pk3 <- df %>%
+       filter(rincian_indikator == 'pencari_kerja_yang_ditempatkan') %>%
+       select(-2)
 
 # Pencari Kerja yang dihapus
-pk4 <- subset(df,df$rincian_indikator == 'Pencari Kerja yang dihapus')
-pk4 <- subset(pk4,select = -c(2,3))
+pk4 <- df %>%
+       filter(rincian_indikator == 'pencari_kerja_yang_dihapus') %>%
+       select(-2)
 
 # Lowongan yang belum dipenuhi
-lk1 <- subset(df,df$rincian_indikator == 'Lowongan yang belum dipenuhi')
-lk1 <- subset(lk1,select = -c(2,3))
+lk1 <- df %>%
+       filter(rincian_indikator == 'lowongan_yang_belum_dipenuhi') %>%
+       select(-2)
 
 # Lowongan yang terdaftar
-lk2 <- subset(df,df$rincian_indikator == 'Lowongan yang terdaftar')
-lk2 <- subset(lk2,select = -c(2,3))
+lk2 <- df %>%
+       filter(rincian_indikator == 'lowongan_yang_terdaftar') %>% 
+       select(-2)
 
 # Lowongan yang dipenuhi
-lk3 <- subset(df,df$indikator == 'Lowongan yang dipenuhi')
-lk3 <- subset(lk3,select = -c(2,3))
+lk3 <- df %>%
+       filter(rincian_indikator == 'lowongan_yang_dipenuhi') %>%
+       select(-2)
 
 # Lowongan Yang dihapus
-lk4 <- subset(df,df$indikator == 'Lowongan Yang dihapus')
-lk4 <- subset(lk4,select = -c(2,3))
+lk4 <- df %>%
+       filter(rincian_indikator == 'lowongan_yang_dihapus') %>%
+       select(-2)
 
 # Lowongan Yang Ada (I-II)
-lk5 <- subset(df,df$indikator == 'Lowongan Yang Ada (I-II)')
-lk5 <- subset(lk5,select = -c(2,3))
+lk5 <- df %>%
+       filter(rincian_indikator == 'lowongan_yang_ada_i_ii') %>%
+       select(-2)
+
+## Buat vector Date (%Y)
+df2_date <- c()
+index_year <- 1
+for (year in 2012:2009) {
+  df2_date[index_year] <- paste0(year,'/01/01')
+  index_year <- index_year + 1
+}
+df2_date <- as.Date(df2_date,format='%Y/%m/%d')
+rm(index_year,year)
+
+## Buat data.frame baru, join semua lk dan pk
+df2 <- data.frame(df2_date,pk1$jumlah,pk2$jumlah,pk3$jumlah,
+                  pk4$jumlah,lk1$jumlah,lk2$jumlah,lk3$jumlah,lk4$jumlah,lk5$jumlah)
+df2_head <- c('tahun',
+              'pencari_kerja_yang_belum_ditempatkan_awal_tahun',
+              'pencari_kerja_yang_terdaftar',
+              'pencari_kerja_yang_ditempatkan',
+              'pencari_kerja_yang_dihapus',
+              'lowongan_yang_belum_dipenuhi',
+              'lowongan_yang_terdaftar',
+              'lowongan_yang_dipenuhi',
+              'lowongan_yang_dihapus',
+              'lowongan_yang_ada_i_ii')
+names(df2) <- df2_head
+
+## descriptive statistic
+summarise(group_by(df,rincian_indikator),
+          minimum=min(jumlah),
+          maksimum=max(jumlah),
+          meadian=median(jumlah),
+          'rata-rata'=mean(jumlah),
+          'simpangan baku'=sd(jumlah))
+
+## Draw a plot to get insight
+library(ggvis)
+
+df %>% ggvis(~tahun, ~jumlah,
+             fill=~rincian_indikator,
+             shape=~rincian_indikator) %>%
+       layer_points() %>%
+       add_axis('x', orient='top', ticks=0, title='Ikhtisar Statistik antar Kerja DKI Jakarta',
+                properties = axis_props(
+                  axis = list(stroke = 'white'),
+                  labels = list(fontSize = 0))) %>%
+       add_axis('y', title='Jumlah Slot', title_offset = 65) %>%
+       add_axis('x', title='Tahun') %>%
+       add_legend(c('fill', 'shape'), title='Keterangan')
