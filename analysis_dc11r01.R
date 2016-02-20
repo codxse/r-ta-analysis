@@ -113,7 +113,7 @@ library(ggvis)
 
 df %>% ggvis(~tahun, ~jumlah,
              fill=~rincian_indikator,
-             shape=~rincian_indikator) %>%
+             size=~jumlah) %>%
        layer_points() %>%
        add_axis('x', orient='top', ticks=0, title='Ikhtisar Statistik antar Kerja DKI Jakarta',
                 properties = axis_props(
@@ -121,4 +121,7 @@ df %>% ggvis(~tahun, ~jumlah,
                   labels = list(fontSize = 0))) %>%
        add_axis('y', title='Jumlah Slot', title_offset = 65) %>%
        add_axis('x', title='Tahun') %>%
-       add_legend(c('fill', 'shape'), title='Keterangan')
+       add_legend('fill', title='Keterangan Warna') %>%
+       add_legend('size', title='Keterangan Ukuran',
+                  properties = legend_props(
+                    legend = list(y = 160)))
