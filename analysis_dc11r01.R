@@ -15,6 +15,7 @@ fpath = file.path('rawdata/dc11_data_ketenaga_kerjaan/R01_PEREKONOMIAN_ikhtisar_
 df <- read.csv(fpath,stringsAsFactors = FALSE)
 df$tahun <- as.character(df$tahun)
 df$jumlah <- as.numeric(df$jumlah)
+df <- arrange(df, tahun)
 
 # ini null value NA
 df$rincian_indikator <- c('pencari_kerja_yang_belum_ditempatkan_awal_tahun',
