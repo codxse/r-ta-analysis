@@ -1,5 +1,5 @@
 ## dc11_data_ketenaga_kerjaan
-## R01_PEREKONOMIAN_ikhtisar_statistik_antar_kerja_2010_2012.csv
+## R01_PEREKONOMIAN_ikhtisar_statistik_antar_kerja_2009_2013.csv
 
 # Buat tabel pada dc1_data_ketenaga_kerjaan menjadi lebih rapih
 # Kolom yang ada menjadi:
@@ -9,6 +9,7 @@
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
 library('dplyr')
+library(ggvis)
 
 # buka csv
 fpath = file.path('rawdata/dc11_data_ketenaga_kerjaan/R01_PEREKONOMIAN_ikhtisar_statistik_antar_kerja_2009_2013.csv')
@@ -109,8 +110,6 @@ summarise(group_by(df,rincian_indikator),
           'simpangan baku'=sd(jumlah))
 
 ## Draw a plot to get insight
-library(ggvis)
-
 df %>% ggvis(~tahun, ~jumlah,
              fill=~rincian_indikator,
              size=~jumlah) %>%
