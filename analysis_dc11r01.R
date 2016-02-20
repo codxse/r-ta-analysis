@@ -11,9 +11,8 @@ setwd('~/Workspaces/r-ta-analysys')
 library('dplyr')
 
 # buka csv
-fpath = file.path('rawdata/dc11_data_ketenaga_kerjaan/R01_PEREKONOMIAN_ikhtisar_statistik_antar_kerja_2010_2012.csv')
+fpath = file.path('rawdata/dc11_data_ketenaga_kerjaan/R01_PEREKONOMIAN_ikhtisar_statistik_antar_kerja_2009_2013.csv')
 df <- read.csv(fpath,stringsAsFactors = FALSE)
-df$jumlah <- replace(df$jumlah, c(31,35), 0)
 df$tahun <- as.character(df$tahun)
 df$jumlah <- as.numeric(df$jumlah)
 
@@ -78,7 +77,7 @@ lk5 <- df %>%
 ## Buat vector Date (%Y)
 df2_date <- c()
 index_year <- 1
-for (year in 2012:2009) {
+for (year in 2013:2009) {
   df2_date[index_year] <- paste0(year,'/01/01')
   index_year <- index_year + 1
 }
