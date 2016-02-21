@@ -1,19 +1,22 @@
 ## dc11_data_ketenaga_kerjaan
-## R01_PEREKONOMIAN_ikhtisar_statistik_antar_kerja_2010_2012.csv
+## R01_PEREKONOMIAN_ikhtisar_statistik_antar_kerja_2009_2013.csv
 
 # Buat tabel pada dc1_data_ketenaga_kerjaan menjadi lebih rapih
 # Kolom yang ada menjadi:
 #   tahun, pk_belum_ditempatkan_awal_tahun, pk_terdaftar, pk_ditempatkan, pk_dihapus,
 #   lk_belum_dipenuhi, lk_terdaftar, lk_dipenuhi, lk_dihapus, lk_ada_untuk_i_ii
+#   Goal: memberikan insight dari data yang ada (descriptive statistic)
 
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
-library('dplyr')
+library(dplyr)
+library(ggvis)
+library(ggplot2)
 
 # buka csv
-fpath = file.path('rawdata/dc11_data_ketenaga_kerjaan/R01_PEREKONOMIAN_ikhtisar_statistik_antar_kerja_2010_2012.csv')
-df <- read.csv(fpath,stringsAsFactors = FALSE)
-df$jumlah <- replace(df$jumlah, c(31,35), 0)
+fpath = file.path('rawdata/dc11_data_ketenaga_kerjaan/R01_PEREKONOMIAN_ikhtisar_statistik_antar_kerja_2009_2013.csv')
+df <- read.csv(fpath,stringsAsFactors = FALSE) %>%
+      arrange(tahun)
 df$tahun <- as.character(df$tahun)
 df$jumlah <- as.numeric(df$jumlah)
 
@@ -78,7 +81,7 @@ lk5 <- df %>%
 ## Buat vector Date (%Y)
 df2_date <- c()
 index_year <- 1
-for (year in 2012:2009) {
+for (year in 2013:2009) {
   df2_date[index_year] <- paste0(year,'/01/01')
   index_year <- index_year + 1
 }
@@ -86,6 +89,7 @@ df2_date <- as.Date(df2_date,format='%Y/%m/%d')
 rm(index_year,year)
 
 ## Buat data.frame baru, join semua lk dan pk
+# ggvis graph
 df2 <- data.frame(df2_date,pk1$jumlah,pk2$jumlah,pk3$jumlah,
                   pk4$jumlah,lk1$jumlah,lk2$jumlah,lk3$jumlah,lk4$jumlah,lk5$jumlah)
 df2_head <- c('tahun',
@@ -109,11 +113,10 @@ summarise(group_by(df,rincian_indikator),
           'simpangan baku'=sd(jumlah))
 
 ## Draw a plot to get insight
-library(ggvis)
-
 df %>% ggvis(~tahun, ~jumlah,
              fill=~rincian_indikator,
-             shape=~rincian_indikator) %>%
+             size=~jumlah,
+             opacity := 0.4) %>%
        layer_points() %>%
        add_axis('x', orient='top', ticks=0, title='Ikhtisar Statistik antar Kerja DKI Jakarta',
                 properties = axis_props(
@@ -121,4 +124,19 @@ df %>% ggvis(~tahun, ~jumlah,
                   labels = list(fontSize = 0))) %>%
        add_axis('y', title='Jumlah Slot', title_offset = 65) %>%
        add_axis('x', title='Tahun') %>%
-       add_legend(c('fill', 'shape'), title='Keterangan')
+       add_legend('fill', title='Keterangan Warna') %>%
+       add_legend('size', title='Keterangan Ukuran',
+                  properties = legend_props(
+                    legend = list(y = 160)))
+
+# ggplot2 plot graph
+ggplot(df, aes(x=tahun,y=jumlah,col=rincian_indikator,size=rincian_indikator)) +
+  geom_point(alpha=0.4)
+
+# ggplot2 bar graph
+# pencari kerja awal tahun vs lowongan yg belum dipenuhi
+# dflp1 <- filter(df, rincian_indikator == 'pencari_kerja_yang_belum_ditempatkan_awal_tahun' |
+#                 rincian_indikator == 'lowongan_yang_belum_dipenuhi')
+
+ggplot(df, aes(x=tahun, y=jumlah, fill=rincian_indikator)) +
+  geom_bar(stat="identity", position=position_dodge())
