@@ -9,8 +9,9 @@
 
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
-library('dplyr')
+library(dplyr)
 library(ggvis)
+library(ggplot2)
 
 # buka csv
 fpath = file.path('rawdata/dc11_data_ketenaga_kerjaan/R01_PEREKONOMIAN_ikhtisar_statistik_antar_kerja_2009_2013.csv')
@@ -88,6 +89,7 @@ df2_date <- as.Date(df2_date,format='%Y/%m/%d')
 rm(index_year,year)
 
 ## Buat data.frame baru, join semua lk dan pk
+# ggvis graph
 df2 <- data.frame(df2_date,pk1$jumlah,pk2$jumlah,pk3$jumlah,
                   pk4$jumlah,lk1$jumlah,lk2$jumlah,lk3$jumlah,lk4$jumlah,lk5$jumlah)
 df2_head <- c('tahun',
@@ -113,7 +115,8 @@ summarise(group_by(df,rincian_indikator),
 ## Draw a plot to get insight
 df %>% ggvis(~tahun, ~jumlah,
              fill=~rincian_indikator,
-             size=~jumlah) %>%
+             size=~jumlah,
+             opacity := 0.4) %>%
        layer_points() %>%
        add_axis('x', orient='top', ticks=0, title='Ikhtisar Statistik antar Kerja DKI Jakarta',
                 properties = axis_props(
@@ -125,3 +128,15 @@ df %>% ggvis(~tahun, ~jumlah,
        add_legend('size', title='Keterangan Ukuran',
                   properties = legend_props(
                     legend = list(y = 160)))
+
+# ggplot2 plot graph
+ggplot(df, aes(x=tahun,y=jumlah,col=rincian_indikator,size=rincian_indikator)) +
+  geom_point(alpha=0.4)
+
+# ggplot2 bar graph
+# pencari kerja awal tahun vs lowongan yg belum dipenuhi
+# dflp1 <- filter(df, rincian_indikator == 'pencari_kerja_yang_belum_ditempatkan_awal_tahun' |
+#                 rincian_indikator == 'lowongan_yang_belum_dipenuhi')
+
+ggplot(df, aes(x=tahun, y=jumlah, fill=rincian_indikator)) +
+  geom_bar(stat="identity", position=position_dodge())
