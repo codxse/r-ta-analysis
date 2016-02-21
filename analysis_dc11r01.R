@@ -5,6 +5,7 @@
 # Kolom yang ada menjadi:
 #   tahun, pk_belum_ditempatkan_awal_tahun, pk_terdaftar, pk_ditempatkan, pk_dihapus,
 #   lk_belum_dipenuhi, lk_terdaftar, lk_dipenuhi, lk_dihapus, lk_ada_untuk_i_ii
+#   Goal: memberikan insight dari data yang ada (descriptive statistic)
 
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
