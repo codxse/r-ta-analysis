@@ -9,6 +9,7 @@ getwd()
 setwd('~/Workspaces/r-ta-analysys')
 library(dplyr)
 library(ggvis)
+library(ggplot2)
 library(plotly)
 
 # buka csv

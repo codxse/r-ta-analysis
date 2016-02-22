@@ -12,6 +12,7 @@ setwd('~/Workspaces/r-ta-analysys')
 library(dplyr)
 library(ggvis)
 library(ggplot2)
+library(plotly)
 
 # buka csv
 fpath = file.path('rawdata/dc11_data_ketenaga_kerjaan/R01_PEREKONOMIAN_ikhtisar_statistik_antar_kerja_2009_2013.csv')
