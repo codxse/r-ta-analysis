@@ -138,5 +138,5 @@ ggplot(df, aes(x=tahun,y=jumlah,col=rincian_indikator,size=rincian_indikator)) +
 # dflp1 <- filter(df, rincian_indikator == 'pencari_kerja_yang_belum_ditempatkan_awal_tahun' |
 #                 rincian_indikator == 'lowongan_yang_belum_dipenuhi')
 
-ggplot(df, aes(x=tahun, y=jumlah, fill=rincian_indikator)) +
+ggplot(df, aes(x=tahun, y=jumlah, fill=factor(rincian_indikator))) +
   geom_bar(stat="identity", position=position_dodge())
