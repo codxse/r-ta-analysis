@@ -50,3 +50,12 @@ df_no_outlier %>%
   layer_model_predictions(model='lm',se=TRUE) %>%
   add_axis('x',title='% Kenaikan UMP Tahun Sebelumnya') %>%
   add_axis('y',title='UMP / 1000',title_offset = 50)
+
+## Line graph ump vs % kenaikan ump vs % inflasi per tahun
+ggplot(df, aes(x=tahun,y=(ump/10000))) +
+  geom_point() +
+  geom_path() +
+  geom_point(aes(x=tahun,y=kenaikan_ump,col='red')) + 
+  geom_path(aes(x=tahun,y=kenaikan_ump,col='red')) +
+  geom_point(aes(x=tahun,y=inflasi,col='blue')) + 
+  geom_path(aes(x=tahun,y=inflasi,col='blue'))
