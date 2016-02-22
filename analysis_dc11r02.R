@@ -52,10 +52,16 @@ df_no_outlier %>%
   add_axis('y',title='UMP / 1000',title_offset = 50)
 
 ## Line graph ump vs % kenaikan ump vs % inflasi per tahun
-ggplot(df, aes(x=tahun,y=(ump/10000))) +
+ggplot(df, aes(x=tahun,y=ump/10000,col='red',alpha=0.5)) +
   geom_point() +
   geom_path() +
-  geom_point(aes(x=tahun,y=kenaikan_ump,col='red')) + 
-  geom_path(aes(x=tahun,y=kenaikan_ump,col='red')) +
-  geom_point(aes(x=tahun,y=inflasi,col='blue')) + 
-  geom_path(aes(x=tahun,y=inflasi,col='blue'))
+  geom_point(aes(x=tahun,y=kenaikan_ump,col='darkgreen',alpha=0.5)) + 
+  geom_path(aes(x=tahun,y=kenaikan_ump,col='darkgreen')) +
+  geom_point(aes(x=tahun,y=inflasi,col='blue',alpha=0.5)) + 
+  geom_path(aes(x=tahun,y=inflasi,col='blue')) +
+  xlab('Tahun') +
+  ylab('UMP / 10.000') +
+  scale_colour_manual('Keterangan',
+                      values=c('red','darkgreen','blue'),
+                      labels=c('UMP','% Naik UMP Sebelumnya','% Infasi Sebelumnya')) +
+  guides(size=FALSE,alpha=FALSE)
