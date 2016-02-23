@@ -8,8 +8,9 @@
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
 library(dplyr)
-library(ggvis)
+library(ggplot2)
 library(plotly)
+library(tidyr)
 
 # buka csv
 fpath = file.path('rawdata/dc11_data_ketenaga_kerjaan/R02_PEREKONOMIAN_upah_minimum_provinsi_dan_inflasi_di_dki_jakarta_1997_2014.csv')
@@ -28,9 +29,14 @@ df_no_outlier <- df %>%
 # cor(df_no_outlier$ump,df_no_outlier$kenaikan_ump)
 lm1 <- ggplot(df_no_outlier,aes(x=kenaikan_ump,y=ump)) +
   geom_point() +
-  geom_smooth(method='lm',se=TRUE)
+  geom_smooth(method='lm',se=TRUE,aes(col='blue')) +
+  xlab('% Kenaikan UMP Tahun Sebelumnya') +
+  ylab('UMP') +
+  scale_color_manual('f(x)',values='blue',labels='y = 3504x + 909588')
 
-ggplotly(lm1)
+## plot interactive
+lm1
+# ggplotly(lm1)
 
 # UMP vs % inflasi tahun sebelumnya
 # lm(df_no_outlier$ump ~ df_no_outlier$inflasi)
@@ -38,18 +44,14 @@ ggplotly(lm1)
 # cor(df_no_outlier$ump,df_no_outlier$inflasi)
 lm2 <- ggplot(df_no_outlier,aes(x=inflasi,y=ump)) +
   geom_point() +
-  geom_smooth(method='lm',se=TRUE)
+  geom_smooth(method='lm',se=TRUE, aes(col='blue'))  +
+  xlab('% Inflasi Tahun Sebelumnya') +
+  ylab('UMP') +
+  scale_color_manual('f(x)',values='blue',labels='y = -50134x + 1331398')
 
-ggplotly(lm2)
-
-## BBuat Model Linear ggplot ggvis
-# Prediksi UM vs % Kenaikan UMP Tahun Sebelumnya 
-df_no_outlier %>%
-  ggvis(~kenaikan_ump,~ump1000) %>%
-  layer_points() %>%
-  layer_model_predictions(model='lm',se=TRUE) %>%
-  add_axis('x',title='% Kenaikan UMP Tahun Sebelumnya') %>%
-  add_axis('y',title='UMP / 1000',title_offset = 50)
+## plot interactive
+lm2
+# ggplotly(lm2)
 
 ## Line graph ump vs % kenaikan ump vs % inflasi per tahun
 ggplot(df, aes(x=tahun,y=ump/10000,col='red',alpha=0.5)) +
@@ -65,3 +67,8 @@ ggplot(df, aes(x=tahun,y=ump/10000,col='red',alpha=0.5)) +
                       values=c('red','darkgreen','blue'),
                       labels=c('UMP','% Naik UMP Sebelumnya','% Infasi Sebelumnya')) +
   guides(size=FALSE,alpha=FALSE)
+
+## Using tidyr
+df.tidy <- gather(df, variable, nilai, -tahun)
+ggplot(df.tidy, aes(x=tahun, y=nilai,col=variable)) +
+  geom_line()
