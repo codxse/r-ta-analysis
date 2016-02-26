@@ -19,7 +19,7 @@ df <- read.csv(fpath,stringsAsFactors = FALSE) %>%
 
 # Hapus Outlier
 df_no_outlier <- df %>%
-  filter(tahun != 1998) %>%
+  filter(inflasi > 0 & inflasi <= 12 & kenaikan_ump > 0 & kenaikan_ump <= 50 ) %>%
   mutate(ump1000=ump/1000)
 
 ## Buat Model Linear ggplot2
