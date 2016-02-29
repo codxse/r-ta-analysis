@@ -110,6 +110,12 @@ ggplot(df_no_outlier,aes(x=inflasi,y=kenaikan_ump)) +
   scale_color_manual('f(x)',values='red',labels='y = 1,835x + 6,637') +
   guides(size=F)
 
+## Confident Interval inflasi 7% (x=7)
+predict(lm(kenaikan_ump~inflasi,
+           data=df_no_outlier),
+        data.frame(inflasi=7),
+        interval='confidence')
+
 ## Interactive Plot
 model_1 <- ggplot(df_no_outlier,aes(x=inflasi,y=kenaikan_ump)) +
   geom_point() +
