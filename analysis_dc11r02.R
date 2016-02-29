@@ -23,6 +23,7 @@ title <- c('Scatter Plot "% Kenaikan UMP" dengan "Inflasi"',
            'Histogram "% Kenaikan UMP" dengan "Inflasi"')
 x <- c('% Inflasi','Tahun')
 y <- c('% Kenaikan UMP','UMP (Rp) / 10.000')
+model_pred <- 'y = 1.835x + 6.637'
 
 # Buat kolom outlier
 df <- df %>%
@@ -105,7 +106,7 @@ ggplot(df_no_outlier,aes(x=inflasi,y=kenaikan_ump)) +
   xlab(x[1]) +
   ylab(y[1]) +
   ggtitle(title[1]) +
-  scale_color_manual('f(x)',values='red',labels='y = 1,835x + 6,637')
+  scale_color_manual('f(x)',values='red',labels=model_pred)
 
 ## Linear Model with SE
 ggplot(df_no_outlier,aes(x=inflasi,y=kenaikan_ump)) +
@@ -114,7 +115,7 @@ ggplot(df_no_outlier,aes(x=inflasi,y=kenaikan_ump)) +
   xlab(x[1]) +
   ylab(y[1]) +
   ggtitle(title[1]) +
-  scale_color_manual('f(x)',values='red',labels='y = 1,835x + 6,637') +
+  scale_color_manual('f(x)',values='red',labels=model_pred) +
   guides(size=F)
 
 ## Confident Interval inflasi 7% (x=7)
@@ -130,7 +131,7 @@ model_1 <- ggplot(df_no_outlier,aes(x=inflasi,y=kenaikan_ump)) +
   xlab(x[1]) +
   ylab(y[1]) +
   ggtitle(title[1]) +
-  scale_color_manual('f(x)',values='red',labels='y = 1,835x + 6,637') +
+  scale_color_manual('f(x)',values='red',labels=model_pred) +
   guides(size=F)
 
 ## Invoke
