@@ -11,16 +11,15 @@ library(dplyr)
 library(ggplot2)
 library(plotly)
 library(tidyr)
-if (!exists("multiplot", mode="function")) source("multiplot.R")
 
 # buka csv
 fpath = file.path('rawdata/dc12_data_ekonomi/R03_PEREKONOMIAN_laju_pertumbuhan_ekonomi_jakarta_nasional_2006_2012.csv')
 df <- read.csv(fpath,stringsAsFactors = FALSE) %>%
   arrange(tahun)
 
-title <- c('Pertumbuhan Ekonomi Nasional vs. Pertumbuhan Ekonomi Jakarta')
-x <- c('% Pertumbuhan Ekonomi Jakarta','Tahun')
-y <- c('% Pertumbuhan Ekonomi Nasional')
+title <- c('Laju Pertumbuhan Ekonomi Jakarta vs. Nasional')
+x <- c('Pertumbuhan Ekonomi Jakarta (%)','Tahun')
+y <- c('Pertumbuhan Ekonomi Nasional (%)')
 model_pred <- 'y = 1.1119x - 0.9794'
 
 # Hapus Outlier
@@ -37,12 +36,12 @@ line1 <- ggplot(df.tidy, aes(x=tahun, y=persen,col=variable)) +
   ggtitle(title[1])
 
 ## Buat Model Linear ggplot2
-# % Nasional vs % Jakarta
+# Pertumbuhan Ekonomi Jakarta vs. Nasional
 # fit <- lm(df$persen_tumbuh_nasional ~ df$persen_tumbuh_jakarta)
 # summary(fit)
 # library(ggvis)
-# compute_model_prediction(df, persen_tumbuh_nasional ~ persen_tumbuh_jakarta, model='lm', se=TRUE)
-# cor(df$persen_tumbuh_nasional, df$persen_tumbuh_jakarta)
+# compute_model_prediction(df,persen_tumbuh_nasional~persen_tumbuh_jakarta,model='lm', se=TRUE)
+# cor(df$persen_tumbuh_nasional,df$persen_tumbuh_jakarta)
 
 ## Scatter Plot
 plot1 <- ggplot(df,aes(x=persen_tumbuh_jakarta,
@@ -70,7 +69,7 @@ ggplot(df,aes(x=persen_tumbuh_jakarta,
 ## Linear Model without SE
 # fit <- lm(df$persen_tumbuh_nasional ~ df$persen_tumbuh_jakarta)
 # library(ggvis)
-# compute_model_prediction(df,persen_tumbuh_nasional ~ persen_tumbuh_jakarta, model='lm', se=TRUE)
+# compute_model_prediction(df,persen_tumbuh_nasional~persen_tumbuh_jakarta,model='lm', se=TRUE)
 ggplot(df,aes(x=persen_tumbuh_jakarta,
               y=persen_tumbuh_nasional)) +
   geom_point() +
