@@ -18,7 +18,9 @@ fpath = file.path('rawdata/dc11_data_ketenaga_kerjaan/R02_PEREKONOMIAN_upah_mini
 df <- read.csv(fpath,stringsAsFactors = FALSE) %>%
       arrange(tahun)
 
-title <- c('Scatter Plot "% Kenaikan UMP" dengan "Inflasi"')
+title <- c('Scatter Plot "% Kenaikan UMP" dengan "Inflasi"',
+           '"% Kenaikan UMP" dengan "Inflasi"',
+           'Histogram "% Kenaikan UMP" dengan "Inflasi"')
 x <- c('% Inflasi','Tahun')
 y <- c('% Kenaikan UMP','UMP (Rp) / 10.000')
 
@@ -38,12 +40,17 @@ df.tidy <- df.tidy %>%
   filter(variable != 'ump')
 
 line1 <- ggplot(df.tidy, aes(x=tahun, y=persen,col=variable)) +
-  geom_line()
+  geom_line() +
+  scale_color_manual('Keterangan',
+                      values=c('blue','red'),
+                      labels=c('% Inflasi','% Kenaikan UMP')) +
+  ggtitle(title[2])
 
 ## Histogram Inflasi & Kenaikan UMP
 hist1 <- ggplot(df.tidy, aes(x=persen, fill=keterangan)) +
   geom_histogram(bins=30,color='white',alpha=.75,position="identity") +
-  facet_grid(variable ~ .)
+  facet_grid(variable ~ .) +
+  ggtitle(title[3])
   
 ## Buat Model Linear ggplot2
 # % Kenaikan UMP vs % Inflasi
