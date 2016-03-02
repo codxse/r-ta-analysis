@@ -40,20 +40,25 @@ df <- df %>%
 
 ## Pilih data yang ada anggarannya
 df_anggaran <- df %>%
-  filter(ANGGARAN != 0) %>%
+  filter(ANGGARAN > 0) %>%
   arrange(desc(ANGGARAN))
 
-## Pilih data yang realisasinya != 0
-df_realisasi <- df %>%
+## Pilih data yang realisasinya >!= 0 
+df_realisasi_neg <- df %>%
   filter(REALISASI != 0) %>%
+  arrange(SELISIH)
+
+## Pilih data yang realisasinya > 0 
+df_realisasi <- df %>%
+  filter(REALISASI > 0 ) %>%
+  # filter(SELISIH >= 0) %>%
   arrange(desc(REALISASI))
 
 ## Pilih data berdasarkan satuan anggaran
 # puluh ribuan
 df_puluhribu <- df_realisasi %>%
   filter(ANGGARAN < R100_) %>%
-  arrange(desc(REALISASI)) %>%
-  filter(SELISIH >= 0)
+  arrange(desc(REALISASI))
 
 # ratus ribuan
 df_ratusribu <- df_realisasi %>%
@@ -64,6 +69,11 @@ df_ratusribu <- df_realisasi %>%
 df_juta <-  df_realisasi %>%
   filter(ANGGARAN >= J_ & ANGGARAN < J10_) %>%
   arrange(desc(REALISASI))
+
+ggplot(df_juta, aes(x=ANGGARAN, y=REALISASI)) +
+  geom_point(alpha=.2) +
+  geom_abline(intercept=0, slope=1,colour='#E41A1C') +
+  geom_abline(intercept=0, slope=.5,colour='#E41A1C')
 
 # puluhan juta
 df_puluhjuta <-  df_realisasi %>%
