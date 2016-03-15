@@ -12,12 +12,17 @@ options(digits=14)
 
 # buka csv
 fpath = file.path('rawdata/dc21_data_keuangan_daerah/R10_KEUANGAN_realisasi_belanja_2015.csv')
-df <- read.csv(fpath,stringsAsFactors = FALSE)
+df <- read.csv(fpath,stringsAsFactors = TRUE)
 
 ## Clean Data
 # Convert string as numeric
 df$ANGGARAN <- as.double(gsub('[,]', '.', gsub('[.]', '', df$ANGGARAN)))
 df$REALISASI <- as.double(gsub('[,]', '.', gsub('[.]', '', df$REALISASI)))
+df$C_URUSAN <- as.factor(df$C_URUSAN)
+
+# Rearrange desc(anggaran)
+df %>%
+  arrange(desc(ANGGARAN))
 
 ## VARS
 R100_ <- 100000
@@ -40,70 +45,58 @@ df <- df %>%
 
 ## Pilih data yang ada anggarannya
 df_anggaran <- df %>%
-  filter(ANGGARAN != 0) %>%
+  filter(ANGGARAN > 0) %>%
   arrange(desc(ANGGARAN))
 
-## Pilih data yang realisasinya != 0
-df_realisasi <- df %>%
+## Pilih data yang realisasinya != 0 
+df_realisasi_neg <- df %>%
   filter(REALISASI != 0) %>%
+  arrange(SELISIH)
+
+## Pilih data yang realisasinya > 0 
+df_realisasi <- df %>%
+  filter(REALISASI > 0 ) %>%
+  # filter(SELISIH >= 0) %>%
   arrange(desc(REALISASI))
 
-## Pilih data berdasarkan satuan anggaran
-# puluh ribuan
-df_puluhribu <- df_realisasi %>%
-  filter(ANGGARAN < R100_) %>%
-  arrange(desc(REALISASI)) %>%
-  filter(SELISIH >= 0)
+## for positif scew (mode < median < mean) (scott)
+df_bellow_median <- df_realisasi %>%
+  filter(ANGGARAN <= median(df_realisasi$ANGGARAN)) %>%
+  arrange(desc(ANGGARAN))
 
-# ratus ribuan
-df_ratusribu <- df_realisasi %>%
-  filter(ANGGARAN >= R100_ & ANGGARAN < J_) %>%
-  arrange(desc(REALISASI))
+df_above_median <- df_realisasi %>%
+  filter(ANGGARAN > median(df_realisasi$ANGGARAN)) %>%
+  arrange(desc(ANGGARAN))
 
-# jutaan
-df_juta <-  df_realisasi %>%
-  filter(ANGGARAN >= J_ & ANGGARAN < J10_) %>%
-  arrange(desc(REALISASI))
+## Outlier (scott)
+# Outlier
+# M_ * 9 didadapat dari str(hist(df_above_median$ANGGARAN, breaks='scott))
+df_am_above <- df_above_median %>%
+  filter(ANGGARAN >= M_ * 9) %>%
+  arrange(desc(ANGGARAN))
 
-# puluhan juta
-df_puluhjuta <-  df_realisasi %>%
-  filter(ANGGARAN >= J10_ & ANGGARAN < J100_) %>%
-  arrange(desc(REALISASI))
+df_am_bellow <- df_above_median %>%
+  filter(ANGGARAN < M_ * 5) %>%
+  arrange(desc(ANGGARAN))
 
-# ratus juta
-df_ratusjuta <-  df_realisasi %>%
-  filter(ANGGARAN >= J100_ & ANGGARAN < M_) %>%
-  arrange(desc(REALISASI))
 
-# miliar
-df_miliar <-  df_realisasi %>%
-  filter(ANGGARAN >= M_ & ANGGARAN < M10_) %>%
-  arrange(desc(REALISASI))
+## HISTOGRAM
+# below median
+ggplot(df_bellow_median, aes(x=ANGGARAN)) +
+  geom_histogram(bins=nclass.scott(df_bellow_median$ANGGARAN),
+                 colour="black", fill="white")
 
-# puluhan miliar
-df_puluhmiliar <-  df_realisasi %>%
-  filter(ANGGARAN >= M10_ & ANGGARAN < M100_) %>%
-  arrange(desc(REALISASI))
+## above median
+ggplot(df_above_median, aes(x=ANGGARAN)) +
+  geom_histogram(bins=nclass.scott(df_above_median$ANGGARAN),
+                 colour="black", fill="white")
 
-# ratusan miliar
-df_ratusmiliar <-  df_realisasi %>%
-  filter(ANGGARAN >= M100_ & ANGGARAN < T_) %>%
-  arrange(desc(REALISASI))
+# above (above median) witches outlier
+ggplot(df_am_above, aes(x=ANGGARAN)) +
+  geom_histogram(bins=nclass.scott(df_am_above$ANGGARAN),
+                 colour="black", fill="white")
 
-# triliun-an
-df_triliun <-  df_realisasi %>%
-  filter(ANGGARAN >= T_) %>%
-  arrange(desc(REALISASI))
-
-######
-## ODS DATA
-#####
-df_ods <- df_realisasi %>%
-  filter(ANGGARAN <= R100_) %>%
-  arrange(desc(REALISASI))
-######
-
-## ANGGARAN vs REALISASI
-ggplot(df_juta, aes(x=ANGGARAN, y=REALISASI)) +
-  geom_point(position = 'jitter',
-             alpha=.5)
+# below (above median) (outlier)
+ggplot(df_am_bellow, aes(x=ANGGARAN)) +
+  geom_histogram(bins=nclass.scott(df_am_bellow$ANGGARAN),
+                 colour="black", fill="white")
