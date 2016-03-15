@@ -59,7 +59,7 @@ df_realisasi <- df %>%
   # filter(SELISIH >= 0) %>%
   arrange(desc(REALISASI))
 
-## for positif scew mode < median < mean
+## for positif scew (mode < median < mean) (scott)
 df_bellow_median <- df_realisasi %>%
   filter(ANGGARAN <= median(df_realisasi$ANGGARAN)) %>%
   arrange(desc(ANGGARAN))
@@ -68,35 +68,35 @@ df_above_median <- df_realisasi %>%
   filter(ANGGARAN > median(df_realisasi$ANGGARAN)) %>%
   arrange(desc(ANGGARAN))
 
-# df_am_no_outlier <- df_above_median %>%
-#   filter(ANGGARAN < M100_ * 3) %>%
-#   arrange(desc(ANGGARAN))
-
-df_am_no_outlier <- df_above_median %>%
-  filter(ANGGARAN < M_ * .5) %>%
+## Outlier (scott)
+# Outlier
+# M_ * 9 didadapat dari str(hist(df_above_median$ANGGARAN, breaks='scott))
+df_am_above <- df_above_median %>%
+  filter(ANGGARAN >= M_ * 9) %>%
   arrange(desc(ANGGARAN))
 
-df_outlier <- df_above_median %>%
-  filter(ANGGARAN >= M_ * .5) %>%
+df_am_bellow <- df_above_median %>%
+  filter(ANGGARAN < M_ * 5) %>%
   arrange(desc(ANGGARAN))
 
-######
-## ODS DATA
-#####
-df_ods <- df_realisasi %>%
-  filter(ANGGARAN <= R100_) %>%
-  arrange(desc(REALISASI))
-######
 
-## ANGGARAN vs REALISASI
-ggplot(df_juta, aes(x=ANGGARAN, y=REALISASI)) +
-  geom_point(position = 'jitter',
-             alpha=.5)
-
+## HISTOGRAM
+# below median
 ggplot(df_bellow_median, aes(x=ANGGARAN)) +
   geom_histogram(bins=nclass.scott(df_bellow_median$ANGGARAN),
                  colour="black", fill="white")
 
+## above median
 ggplot(df_above_median, aes(x=ANGGARAN)) +
-  geom_histogram(bins=nclass.Sturges(df_above_median$ANGGARAN),
+  geom_histogram(bins=nclass.scott(df_above_median$ANGGARAN),
+                 colour="black", fill="white")
+
+# above (above median) witches outlier
+ggplot(df_am_above, aes(x=ANGGARAN)) +
+  geom_histogram(bins=nclass.scott(df_am_above$ANGGARAN),
+                 colour="black", fill="white")
+
+# below (above median) (outlier)
+ggplot(df_am_bellow, aes(x=ANGGARAN)) +
+  geom_histogram(bins=nclass.scott(df_am_bellow$ANGGARAN),
                  colour="black", fill="white")
