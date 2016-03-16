@@ -21,7 +21,7 @@ df$REALISASI <- as.double(gsub('[,]', '.', gsub('[.]', '', df$REALISASI)))
 df$C_URUSAN <- as.factor(df$C_URUSAN)
 
 # Rearrange desc(anggaran)
-df %>%
+df <- df %>%
   arrange(desc(ANGGARAN))
 
 ## VARS
@@ -124,3 +124,27 @@ ggplot(df_realisasi_neg, aes(y=ANGGARAN, x=as.numeric(N_URUSAN))) +
   guides(size=FALSE,
          alpha=FALSE,
          col=FALSE)
+
+## K-means
+# remove unnecessary columns
+df_col_cleans <- df %>%
+  select(NAMA_SKPD,N_URUSAN,NAMA_AKUN,ANGGARAN,REALISASI)
+ 
+## Making a scree plot
+## determine how many cluster
+
+dummy <- df_col_cleans
+dummy$NAMA_SKPD <- as.numeric(dummy$NAMA_SKPD)
+dummy$N_URUSAN <- as.numeric(dummy$N_URUSAN)
+dummy$NAMA_AKUN <- as.numeric(dummy$NAMA_AKUN)
+
+max_k <- 15
+ratio_ss <- c(rep(0,max_k))
+
+for (k in 1:max_k) {
+  df_km <- kmeans(dummy, k, 500)
+  ratio_ss[k] <- df_km$tot.withinss/df_km$totss
+}
+
+# scree plot
+plot(ratio_ss, type='b',xlab='k')
