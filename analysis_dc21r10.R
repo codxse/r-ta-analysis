@@ -185,41 +185,41 @@ ggplot(subset(df_col_cleans,
                                           CLUSTER == 8)$ANGGARAN),
                  colour="black", fill="white")
 
-ggplot(subset(df_col_cleans,
-              CLUSTER == 3), aes(x=ANGGARAN)) +
-  geom_histogram(bins=nclass.scott(subset(df_col_cleans,
-                                          CLUSTER == 3)$ANGGARAN),
-                 colour="black", fill="white")
-
-ggplot(subset(df_col_cleans,
-              CLUSTER == 5), aes(x=ANGGARAN)) +
-  geom_histogram(bins=nclass.scott(subset(df_col_cleans,
-                                          CLUSTER == 5)$ANGGARAN),
-                 colour="black", fill="white")
-
-ggplot(subset(df_col_cleans,
-              CLUSTER == 1), aes(x=ANGGARAN)) +
-  geom_histogram(bins=nclass.scott(subset(df_col_cleans,
-                                          CLUSTER == 1)$ANGGARAN),
-                 colour="black", fill="white")
-
-ggplot(subset(df_col_cleans,
-              CLUSTER == 10), aes(x=ANGGARAN)) +
-  geom_histogram(bins=nclass.scott(subset(df_col_cleans,
-                                          CLUSTER == 10)$ANGGARAN),
-                 colour="black", fill="white")
-
-ggplot(subset(df_col_cleans,
-              CLUSTER == 12), aes(x=ANGGARAN)) +
-  geom_histogram(bins=nclass.scott(subset(df_col_cleans,
-                                          CLUSTER == 12)$ANGGARAN),
-                 colour="black", fill="white")
-
-ggplot(subset(df_col_cleans,
-              CLUSTER == 2), aes(x=ANGGARAN)) +
-  geom_histogram(bins=nclass.scott(subset(df_col_cleans,
-                                          CLUSTER == 2)$ANGGARAN),
-                 colour="black", fill="white")
+# ggplot(subset(df_col_cleans,
+#               CLUSTER == 3), aes(x=ANGGARAN)) +
+#   geom_histogram(bins=nclass.scott(subset(df_col_cleans,
+#                                           CLUSTER == 3)$ANGGARAN),
+#                  colour="black", fill="white")
+# 
+# ggplot(subset(df_col_cleans,
+#               CLUSTER == 5), aes(x=ANGGARAN)) +
+#   geom_histogram(bins=nclass.scott(subset(df_col_cleans,
+#                                           CLUSTER == 5)$ANGGARAN),
+#                  colour="black", fill="white")
+# 
+# ggplot(subset(df_col_cleans,
+#               CLUSTER == 1), aes(x=ANGGARAN)) +
+#   geom_histogram(bins=nclass.scott(subset(df_col_cleans,
+#                                           CLUSTER == 1)$ANGGARAN),
+#                  colour="black", fill="white")
+# 
+# ggplot(subset(df_col_cleans,
+#               CLUSTER == 10), aes(x=ANGGARAN)) +
+#   geom_histogram(bins=nclass.scott(subset(df_col_cleans,
+#                                           CLUSTER == 10)$ANGGARAN),
+#                  colour="black", fill="white")
+# 
+# ggplot(subset(df_col_cleans,
+#               CLUSTER == 12), aes(x=ANGGARAN)) +
+#   geom_histogram(bins=nclass.scott(subset(df_col_cleans,
+#                                           CLUSTER == 12)$ANGGARAN),
+#                  colour="black", fill="white")
+# 
+# ggplot(subset(df_col_cleans,
+#               CLUSTER == 2), aes(x=ANGGARAN)) +
+#   geom_histogram(bins=nclass.scott(subset(df_col_cleans,
+#                                           CLUSTER == 2)$ANGGARAN),
+#                  colour="black", fill="white")
 
 # ### Analisis k-8
 # km_8 <- subset(df_col_cleans, CLUSTER == 8)
