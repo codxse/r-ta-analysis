@@ -8,6 +8,7 @@ getwd()
 setwd('~/Workspaces/r-ta-analysys')
 library(dplyr)
 library(ggplot2)
+if (!exists("multiplot", mode="function")) source("multiplot.R")
 options(digits=14)
 
 # buka csv
@@ -157,14 +158,25 @@ df_col_cleans$CLUSTER <- as.factor(df_km$cluster)
 
 # plot a cluster
 set.seed(100)
-ggplot(df_col_cleans, aes(y=REALISASI,
-                          x=as.numeric(ANGGARAN))) +
+plot_km <- ggplot(df_col_cleans, aes(y=REALISASI,
+                          x=ANGGARAN)) +
   geom_point(aes(size=ANGGARAN,
                  color=CLUSTER),
              alpha=.7,
              position=position_jitter(width=10,height=1)) +
   guides(size=FALSE,
+         alpha=FALSE,
+         color=FALSE)
+
+plot_km_black <- ggplot(df_col_cleans, aes(y=REALISASI,
+                                     x=ANGGARAN)) +
+  geom_point(aes(size=ANGGARAN),
+             alpha=.7,
+             position=position_jitter(width=10,height=1)) +
+  guides(size=FALSE,
          alpha=FALSE)
+
+multiplot(plot_km_black, plot_km, cols=2)
 
 # make a histogram
 # sor <- sort(summary(df_col_cleans$CLUSTER), TRUE)
