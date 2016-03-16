@@ -96,7 +96,31 @@ ggplot(df_am_above, aes(x=ANGGARAN)) +
   geom_histogram(bins=nclass.scott(df_am_above$ANGGARAN),
                  colour="black", fill="white")
 
-# below (above median) (outlier)
+# below (above median)
 ggplot(df_am_bellow, aes(x=ANGGARAN)) +
   geom_histogram(bins=nclass.scott(df_am_bellow$ANGGARAN),
                  colour="black", fill="white")
+
+###############
+### k-Menas ###
+###############
+## Plot Data
+ggplot(df_realisasi_neg, aes(y=ANGGARAN, x=as.numeric(N_URUSAN))) +
+  geom_point(aes(size=ANGGARAN,
+                 alpha=.1)) +
+  geom_point(aes(size=REALISASI,
+                 alpha=.1,
+                 colour='white')) +
+  guides(size=FALSE,
+         alpha=FALSE,
+         col=FALSE)
+
+## Jitter Plot
+set.seed(100)
+ggplot(df_realisasi_neg, aes(y=ANGGARAN, x=as.numeric(N_URUSAN))) +
+  geom_point(aes(size=REALISASI,
+                 alpha=.1),
+             position=position_jitter(width=5,height=1)) +
+  guides(size=FALSE,
+         alpha=FALSE,
+         col=FALSE)
