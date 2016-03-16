@@ -12,7 +12,7 @@ options(digits=14)
 
 # buka csv
 fpath = file.path('rawdata/dc21_data_keuangan_daerah/R10_KEUANGAN_realisasi_belanja_2015.csv')
-df <- read.csv(fpath,stringsAsFactors = TRUE)
+df <- read.csv(fpath,stringsAsFactors = TRUE, na.strings = c('','NA'))
 
 ## Clean Data
 # Convert string as numeric
