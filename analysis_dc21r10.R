@@ -127,18 +127,18 @@ ggplot(df_realisasi_neg, aes(y=ANGGARAN, x=as.numeric(N_URUSAN))) +
 
 ## K-means
 # remove unnecessary columns
-df_col_cleans <- df %>%
+df_col_cleans <- df_realisasi_neg %>%
   select(NAMA_SKPD,N_URUSAN,NAMA_AKUN,ANGGARAN,REALISASI)
  
 ## Making a scree plot
-## determine how many cluster
+## determine how many cluster k
 
 dummy <- df_col_cleans
 dummy$NAMA_SKPD <- as.numeric(dummy$NAMA_SKPD)
 dummy$N_URUSAN <- as.numeric(dummy$N_URUSAN)
 dummy$NAMA_AKUN <- as.numeric(dummy$NAMA_AKUN)
 
-max_k <- 15
+max_k <- 20
 ratio_ss <- c(rep(0,max_k))
 
 for (k in 1:max_k) {
@@ -148,3 +148,20 @@ for (k in 1:max_k) {
 
 # scree plot
 plot(ratio_ss, type='b',xlab='k')
+
+## based on scree plot 'the elbow' falls after 15,
+# so the k best fit > 15
+fit_km <- 15
+df_km <- kmeans(dummy, fit_km, 500)
+df_col_cleans$CLUSTER <- as.factor(df_km$cluster)
+
+# plot a cluster
+set.seed(100)
+ggplot(df_col_cleans, aes(y=REALISASI,
+                          x=as.numeric(ANGGARAN))) +
+  geom_point(aes(size=ANGGARAN,
+                 color=CLUSTER),
+             alpha=.7,
+             position=position_jitter(width=10,height=1)) +
+  guides(size=FALSE,
+         alpha=FALSE)
