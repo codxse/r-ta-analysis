@@ -1,5 +1,5 @@
 ## dc22_data_ekspor_impor
-## R11_KEUANGAN_ekspor_impor_2011.csv
+## R11_KEUANGAN_ekspor_2011.csv
 
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
@@ -10,7 +10,7 @@ if (!exists("multiplot", mode="function")) source("multiplot.R")
 options(digits=14)
 
 # buka csv
-fpath = file.path('rawdata/dc22_data_ekspor_impor/R11_KEUANGAN_ekspor_impor_2011.csv')
+fpath = file.path('rawdata/dc22_data_ekspor_impor/R11_KEUANGAN_ekspor_2011.csv')
 df <- read.csv(fpath,stringsAsFactors = FALSE)
 
 ## Clean Data
