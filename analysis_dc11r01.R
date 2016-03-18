@@ -9,6 +9,7 @@
 
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
+rm(list=ls())
 library(dplyr)
 library(ggvis)
 library(ggplot2)
