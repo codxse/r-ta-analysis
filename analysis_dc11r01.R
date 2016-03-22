@@ -156,13 +156,13 @@ df$rincian_indikator <- c('Pencari kerja yang belum ditempatkan diawal tahun',
                           'Lowongan yang ada (Gol I dan Gol II)')
 df$rincian_indikator <- as.factor(df$rincian_indikator)
 ggplot(df, aes(x=tahun, y=jumlah)) +
-  stat_smooth(aes(color=rincian_indikator)) +
+  geom_line(aes(color=rincian_indikator), size=1) +
   geom_point(aes(color=rincian_indikator,
-                 size=5),
+                 size=4),
              shape=21,
              fill='white') +
   labs(color='Rincian Indikator') +
-  ggtitle('Ikhtisar Statistik Antar Kerja Tahun 2009-2013') +
+  ggtitle('Ikhtisar Statistik Antar Kerja Tahun 2009-2013 DKI Jakarta') +
   ylab('Jumlah Pencari Kerja / Lowongan Kerja') +
   xlab('Tahun') +
   theme(plot.title=element_text(face="bold", size=15)) +
