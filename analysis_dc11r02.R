@@ -182,7 +182,7 @@ ggplot(df.viz, aes(x=tahun, y=persen)) +
   scale_size(range=c(5,10)) +
   labs(color='Keterangan',
        size='UMP (Rp.)') +
-  ggtitle('Kenaikan UMP (%) vs. Inflasi (%) DKI Jakarta') +
+  ggtitle('Kenaikan UMP vs. Inflasi DKI Jakarta') +
+  theme(plot.title=element_text(face="bold", size=15)) +
   ylab('Kenaikan (%)') +
-  xlab(x[1]) +
-  theme(plot.title=element_text(face="bold", size=15))
+  xlab(x[1])
