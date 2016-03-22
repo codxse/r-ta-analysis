@@ -162,7 +162,7 @@ ggplot(df_no_outlier,aes(x=inflasi,y=kenaikan_ump)) +
   geom_smooth(method='lm',se=TRUE,aes(col='red'),size=1) +
   xlab(x[1]) +
   ylab(y[1]) +
-  ggtitle(title[1]) +
+  ggtitle('Model Prediction Kenaikan UMP vs. Inflasi DKI Jakarta') +
   theme(plot.title=element_text(face="bold", size=15)) +
   scale_color_manual('Linear Model',values='red',labels=model_pred) +
   guides(size=F)
