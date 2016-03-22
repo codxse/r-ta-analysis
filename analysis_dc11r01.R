@@ -142,3 +142,28 @@ ggplot(df, aes(x=tahun,y=jumlah,col=rincian_indikator,size=rincian_indikator)) +
 
 ggplot(df, aes(x=tahun, y=jumlah, fill=factor(rincian_indikator)), binwidth=40) +
   geom_bar(stat="identity", position=position_dodge(width=1))
+
+## Data Visualization
+df$tahun <- as.Date(paste0(df$tahun,'/01/01'))
+df$rincian_indikator <- c('Pencari kerja yang belum ditempatkan diawal tahun',
+                          'Pencari kerja yang terdaftar',
+                          'Pencari kerja yang ditempatkan',
+                          'Pencari kerja yang dihapus',
+                          'Lowongan yang belum dipenuhi',
+                          'Lowongan yang terdaftar',
+                          'Lowongan yang dipenuhi',
+                          'Lowongan yang dihapus',
+                          'Lowongan yang ada (Gol I dan Gol II)')
+df$rincian_indikator <- as.factor(df$rincian_indikator)
+ggplot(df, aes(x=tahun, y=jumlah)) +
+  stat_smooth(aes(color=rincian_indikator)) +
+  geom_point(aes(color=rincian_indikator,
+                 size=5),
+             shape=21,
+             fill='white') +
+  labs(color='Rincian Indikator') +
+  ggtitle('Ikhtisar Statistik Antar Kerja Tahun 2009-2013') +
+  ylab('Jumlah Pencari Kerja / Lowongan Kerja') +
+  xlab('Tahun') +
+  theme(plot.title=element_text(face="bold", size=15)) +
+  guides(size=FALSE)
