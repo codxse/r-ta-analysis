@@ -111,3 +111,41 @@ model_1 <- ggplot(df,aes(x=inflasi_jakarta,
 
 ## Invoke
 # ggplotly(model_1)
+
+## Data Visualization
+df.viz <- rbind(df, data.frame('bulan'=c('November','Desember'),
+                     'tahun'=c(2015,2015),
+                     'inflasi_jakarta'=c(0,0),
+                     'inflasi_indonesia'=c(0,0)))
+df.viz$bulan <- 1:12
+df.viz <- df.viz[1:70,]
+df.viz$tahun <- as.Date(paste0(df.viz$tahun,'/',df.viz$bulan,'/01'))
+df.viz$bulan <- NULL
+
+# Linear Model
+ggplot(df,aes(x=inflasi_jakarta,
+              y=inflasi_indonesia)) +
+  geom_jitter(position=position_jitter(width=1,height=1)) +
+  geom_smooth(method='lm',se=TRUE,aes(col='red')) +
+  xlab(x[1]) +
+  ylab(y[1]) +
+  ggtitle('Model Prediction Inflasi Bulanan Jakarta vs. Nasional 2010-2015') +
+  theme(plot.title=element_text(face="bold", size=15)) +
+  scale_color_manual('Linear Model',values='red',labels=model_pred) +
+  guides(size=F)
+
+# Line graph
+names(df.viz) <- c('Tanggal','Inflasi Jakarta', 'Inflasi Nasional')
+df.viz <- gather(df.viz, key, value, -Tanggal)
+
+ggplot(df.viz, aes(x=Tanggal, y=value)) +
+  geom_line(aes(color=key),size=1) +
+  geom_point(aes(color=key),
+             size=4,
+             shape=21,
+             fill='white') +
+  labs(color='Keterangan') +
+  ggtitle('Inflasi Bulanan Jakarta vs. Nasional 2010-2015') +
+  theme(plot.title=element_text(face="bold", size=15)) +
+  ylab('Inflasi (%)') +
+  xlab('Tanggal')
