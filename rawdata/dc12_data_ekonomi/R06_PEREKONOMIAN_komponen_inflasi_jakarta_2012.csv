@@ -1,0 +1,49 @@
+komponen_inflasi,bulan,persen_inflasi
+"Umum","Januari",.48
+"Umum","Februari",.17
+"Umum","Maret",.18
+"Umum","April",.13
+"Umum","Mei",
+"Umum","Juni",.38
+"Bukan Makanan","Januari",1.6
+"Bukan Makanan","Februari",-.62
+"Bukan Makanan","Maret",.1
+"Bukan Makanan","April",.35
+"Bukan Makanan","Mei",
+"Bukan Makanan","Juni",.93
+"Makanan jadi, Minuman, Rokok dan tembakau","Januari",.74
+"Makanan jadi, Minuman, Rokok dan tembakau","Februari",.18
+"Makanan jadi, Minuman, Rokok dan tembakau","Maret",.4
+"Makanan jadi, Minuman, Rokok dan tembakau","April",.7
+"Makanan jadi, Minuman, Rokok dan tembakau","Mei",
+"Makanan jadi, Minuman, Rokok dan tembakau","Juni",.15
+"Perumahan, Air, Listrik, Gas, dan Bahan bakar","Januari",.11
+"Perumahan, Air, Listrik, Gas, dan Bahan bakar","Februari",.2
+"Perumahan, Air, Listrik, Gas, dan Bahan bakar","Maret",.1
+"Perumahan, Air, Listrik, Gas, dan Bahan bakar","April",.06
+"Perumahan, Air, Listrik, Gas, dan Bahan bakar","Mei",
+"Perumahan, Air, Listrik, Gas, dan Bahan bakar","Juni",.5
+"Sandang","Januari",.31
+"Sandang","Februari",1.74
+"Sandang","Maret",.28
+"Sandang","April",-.89
+"Sandang","Mei",
+"Sandang","Juni",.55
+"Kesehatan","Januari",.59
+"Kesehatan","Februari",-.03
+"Kesehatan","Maret",.04
+"Kesehatan","April",.04
+"Kesehatan","Mei",
+"Kesehatan","Juni",.08
+"Pendidikan, Rekreasi dan Olah Raga","Januari",.01
+"Pendidikan, Rekreasi dan Olah Raga","Februari",0
+"Pendidikan, Rekreasi dan Olah Raga","Maret",.02
+"Pendidikan, Rekreasi dan Olah Raga","April",0
+"Pendidikan, Rekreasi dan Olah Raga","Mei",
+"Pendidikan, Rekreasi dan Olah Raga","Juni",.03
+"Transportasi, Komunikasi dan Jasa Keuangan","Januari",-.04
+"Transportasi, Komunikasi dan Jasa Keuangan","Februari",.13
+"Transportasi, Komunikasi dan Jasa Keuangan","Maret",.2
+"Transportasi, Komunikasi dan Jasa Keuangan","April",.17
+"Transportasi, Komunikasi dan Jasa Keuangan","Mei",
+"Transportasi, Komunikasi dan Jasa Keuangan","Juni",.03
