@@ -7,6 +7,7 @@
 
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
+rm(list=ls())
 library(dplyr)
 library(ggplot2)
 library(plotly)
@@ -110,3 +111,38 @@ model_1 <- ggplot(df,aes(x=persen_tumbuh_jakarta,
 
 ## Invoke
 # ggplotly(model_1)
+
+## Data Visualization
+df$tahun <- as.Date(paste0(df$tahun,'/01/01'))
+
+# Model Prediction
+ggplot(df,aes(x=persen_tumbuh_jakarta,
+              y=persen_tumbuh_nasional)) +
+  geom_point() +
+  geom_smooth(method='lm',se=TRUE,aes(col='red')) +
+  xlab(x[1]) +
+  ylab(y[1]) +
+  ggtitle('Model Prediction Pertumbuhan Ekonomi Jakarta vs. Nasional') +
+  theme(plot.title=element_text(face="bold", size=15)) +
+  scale_color_manual('Linear Model',values='red',labels=model_pred) +
+  guides(size=F)
+
+df.viz <- df
+names(df.viz) <- c('Tahun','Pertumbuhan Jakarta','Pertumbuhan Nasional')
+df.viz <-  gather(df.viz, variable, persen, -Tahun)
+df.viz$variable <- as.factor(df.viz$variable)
+
+ggplot(df.viz, aes(x=Tahun, y=persen)) +
+  geom_line(aes(color=variable),size=1) +
+  geom_point(aes(color=variable),
+             size=4,
+             shape=21,
+             fill='white') +
+  scale_size(range=c(5,10)) +
+  labs(color='Keterangan') +
+  ggtitle('Pertumbuhan Ekonomi Jakarta vs. Nasional') +
+  theme(plot.title=element_text(face="bold", size=15)) +
+  ylab('Pertumbuhan (%)') +
+  xlab('Tahun')
+  
+

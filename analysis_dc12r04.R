@@ -7,6 +7,7 @@
 
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
+rm(list=ls())
 library(dplyr)
 library(ggplot2)
 library(plotly)
@@ -110,3 +111,34 @@ model_1 <- ggplot(df,aes(x=inflasi_jakarta,
 
 ## Invoke
 # ggplotly(model_1)
+
+## Data Visualization
+df$tahun <- as.Date(paste0(df$tahun,'/01/01'))
+
+# Model Prediction
+ggplot(df,aes(x=inflasi_jakarta,
+              y=inflasi_nasional)) +
+  geom_point() +
+  geom_smooth(method='lm',se=TRUE,aes(col='red')) +
+  xlab(x[1]) +
+  ylab(y[1]) +
+  ggtitle('Model Prediction Inflasi DKI Jakarta vs. Nasional') +
+  theme(plot.title=element_text(face="bold", size=15)) +
+  scale_color_manual('Linear Model',values='red',labels=model_pred) +
+  guides(size=F)
+
+df.viz <- df
+names(df.viz) <- c('Tahun', 'Inflasi Jakarta', 'Inflasi Nasional')
+df.viz <- gather(df.viz, key, value, -Tahun)
+
+ggplot(df.viz, aes(x=Tahun, y=value)) +
+  geom_line(aes(color=key),size=1) +
+  geom_point(aes(color=key),
+             size=4,
+             shape=21,
+             fill='white') +
+  labs(color='Keterangan') +
+  ggtitle('Inflasi DKI Jakarta vs. Nasional') +
+  theme(plot.title=element_text(face="bold", size=15)) +
+  ylab('Inflasi (%)') +
+  xlab('Tahun')
