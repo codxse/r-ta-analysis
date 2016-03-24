@@ -4,6 +4,8 @@
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
 rm(list=ls())
+library(tidyr)
+library(ggplot2)
 
 # buka csv
 fpath = file.path('rawdata/dc12_data_ekonomi/R06_PEREKONOMIAN_komponen_inflasi_jakarta_2012.csv')
@@ -23,7 +25,7 @@ line_ <- ggplot(df, aes(x=Tanggal,y=Inflasi)) +
              size=4,
              shape=21,
              fill='white') +
-  ggtitle('Komponen Inflasi DKI Jakarta Bulan Januari-Juni 2012') +
+  ggtitle('Komponen Inflasi DKI Jakarta\nBulan Januari-Juni 2012') +
   theme(plot.title=element_text(face='bold',size=15)) +
   ylab('Inflasi (%)') +
   xlab('Bulan')
