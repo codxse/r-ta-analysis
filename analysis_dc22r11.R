@@ -63,9 +63,10 @@ names(df.viz) <- c('Tahun','Komoditas',
                    'Grup')
 df.viz$Grup <- as.factor(df.viz$Grup)
 
-df.tidy <- gather(df.viz, key, Total, -c(Tahun, Komoditas, Grup))
+df.tidy <- gather(df.viz, key, Total, -c(1,2,5))
+
 df.tidy <- df.tidy %>%
-  arrange(desc(Grup))
+  arrange()
 
 bar_ <- ggplot(df.tidy, aes(x=format(Tahun,'%Y'))) +
   geom_bar(position='fill',
@@ -73,8 +74,6 @@ bar_ <- ggplot(df.tidy, aes(x=format(Tahun,'%Y'))) +
            aes(fill=Grup,
                y=Total)) +
   scale_y_continuous(labels=scales::percent) +
-  geom_text(aes(y=Total,
-                label=))
   ggtitle("Volume Ekspor Melalui DKI Jakarta Menurut Jenis Komoditi") +
   theme(plot.title=element_text(face='bold',size=15)) +
   xlab('Tahun') +
