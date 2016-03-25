@@ -7,9 +7,7 @@
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
 rm(list=ls())
-library(dplyr)
 library(ggplot2)
-library(tidyr)
 
 ## clean csv
 df1 <- read.csv(file.path('rawdata/dc22_data_ekspor_impor/R12_KEUANGAN_impor_hs_2_mei_2014.csv'),
@@ -101,4 +99,3 @@ hist_ <- ggplot(df.viz, aes(x=Nilai)) +
              alpha=.5) +
   facet_grid(. ~ Tahun)
 hist_
-  
