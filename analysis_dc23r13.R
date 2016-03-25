@@ -1,0 +1,83 @@
+## dc23_data_harga_komoditas
+## R13_PANGAN_harga_pangan_tingkat_konsumen_maret_2015.csv
+## R13_PANGAN_harga_pangan_tingkat_konsumen_april_2015.csv
+## R13_PANGAN_harga_pangan_tingkat_konsumen_mei_2015.csv
+## R13_PANGAN_harga_pangan_tingkat_konsumen_juni_2015.csv
+## R13_PANGAN_harga_pangan_tingkat_konsumen_juli_2015.csv
+## R13_PANGAN_harga_pangan_tingkat_konsumen_agustus_2015.csv
+## R13_PANGAN_harga_pangan_tingkat_konsumen_september_2015.csv
+
+getwd()
+setwd('~/Workspaces/r-ta-analysys')
+rm(list=ls())
+library(ggplot2)
+library(dplyr)
+
+# load data.frame
+df3 <- read.csv(file.path('rawdata/dc23_data_harga_komoditas/R13_PANGAN_harga_pangan_tingkat_konsumen_maret_2015.csv'),
+                stringsAsFactors = FALSE)
+df3$Bulan <- as.Date('2015/3/1')
+  
+df4 <- read.csv(file.path('rawdata/dc23_data_harga_komoditas/R13_PANGAN_harga_pangan_tingkat_konsumen_april_2015.csv'),
+                stringsAsFactors = FALSE)
+df4$Bulan <- as.Date('2015/4/1')
+
+df5 <- read.csv(file.path('rawdata/dc23_data_harga_komoditas/R13_PANGAN_harga_pangan_tingkat_konsumen_mei_2015.csv'),
+                stringsAsFactors = FALSE)
+df5$Bulan <- as.Date('2015/5/1')
+
+df6 <- read.csv(file.path('rawdata/dc23_data_harga_komoditas/R13_PANGAN_harga_pangan_tingkat_konsumen_juni_2015.csv'),
+                stringsAsFactors = FALSE)
+df6$Bulan <- as.Date('2015/6/1')
+
+df7 <- read.csv(file.path('rawdata/dc23_data_harga_komoditas/R13_PANGAN_harga_pangan_tingkat_konsumen_juli_2015.csv'),
+                stringsAsFactors = FALSE)
+df7$Bulan <- as.Date('2015/7/1')
+
+df8 <- read.csv(file.path('rawdata/dc23_data_harga_komoditas/R13_PANGAN_harga_pangan_tingkat_konsumen_agustus_2015.csv'),
+                stringsAsFactors = FALSE)
+df8$Bulan <- as.Date('2015/8/1')
+
+df9 <- read.csv(file.path('rawdata/dc23_data_harga_komoditas/R13_PANGAN_harga_pangan_tingkat_konsumen_september_2015.csv'),
+                stringsAsFactors = FALSE)
+df9$Bulan <- as.Date('2015/9/1')
+
+## bind data
+df <- rbind(df3,df4,df5,df6,df7,df8,df9)
+
+## clean data
+df$wilayah <- as.factor(df$wilayah)
+df$komoditi <- as.factor(df$komoditi)
+df$satuan <- as.factor(df$satuan)
+df$harga_per_satuan <- as.numeric(df$harga_per_satuan)
+
+names(df) <- c('Wilayah','Komoditi','Harga','Satuan','Tanggal')
+
+## Data Visualization
+df$Bulan <- as.factor(paste0(format(df$Tanggal,'%m')))
+
+## Distribution
+data_vlines <- data.frame(Wilayah=levels(df$Wilayah),
+                         Harga=c(mean(filter(df, Wilayah == 'Jakarta Barat')$Harga),
+                                 mean(filter(df, Wilayah == 'Jakarta Pusat')$Harga),
+                                 mean(filter(df, Wilayah == 'Jakarta Selatan')$Harga),
+                                 mean(filter(df, Wilayah == 'Jakarta Timur')$Harga),
+                                 mean(filter(df, Wilayah == 'Jakarta Utara')$Harga)))
+
+hist_ <- ggplot(df, aes(x=Harga)) +
+  geom_histogram(bins=nclass.Sturges(df$Harga),
+                 color='black',
+                 fill='white') +
+  ggtitle('Distribusi Harga Pangan Tingkat Konsumen Tahun 2015') +
+  theme(plot.title=element_text(face='bold', size=15)) +
+  labs(x='Harta per Kg/Liter',
+       y='Frekuensi') +
+  geom_vline(data=data_vlines,
+             aes(xintercept=Harga),
+             color='red',
+             size=1,
+             alpha=.5) +
+  facet_grid(Wilayah ~ .)
+hist_
+
+# Line chart
