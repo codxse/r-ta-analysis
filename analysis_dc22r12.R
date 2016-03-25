@@ -63,3 +63,42 @@ df <- arrange(df, bulan)
 df$golongan_barang <- as.factor(df$golongan_barang)
 
 ## Data Visualization
+df.viz <- df
+names(df.viz) <- c('Bulan','Golongan','Nilai')
+
+# line chart
+line_ <- ggplot(df.viz, aes(x=Bulan, y=Nilai)) +
+  geom_line(aes(color=Golongan), size=1) +
+  geom_point(aes(color=Golongan),
+             size=3,
+             shape=21,
+             fill='white') +
+  ggtitle('Nilai Ekspor Produk DKI Jakarta\nMenurut Golongan Barang') +
+  theme(plot.title=element_text(face='bold', size=15)) +
+  labs(y='Juta USD',
+       x='Bulan')
+line_
+
+# distribution
+df.viz$Tahun <- as.factor(paste0(format(df.viz$Bulan, '%Y')))
+mean2013 <- mean(subset(df.viz, df.viz$Tahun == 2013)$Nilai)
+mean2014 <- mean(subset(df.viz, df.viz$Tahun == 2014)$Nilai)
+data_vlines <- data.frame(Tahun=levels(df.viz$Tahun),
+                          Nilai=c(mean2013,mean2014))
+
+hist_ <- ggplot(df.viz, aes(x=Nilai)) +
+  geom_histogram(bins=nclass.Sturges(df.viz$Nilai),
+                 color='black',
+                 fill='white') +
+  ggtitle('Distribusi Ekspor Produk DKI Jakarta Menurut Golongan Barang') +
+  theme(plot.title=element_text(face='bold', size=15)) +
+  labs(x='Juta USD',
+       y='Frekuensi') +
+  geom_vline(data=data_vlines,
+             aes(xintercept=Nilai),
+             color='red',
+             size=1,
+             alpha=.5) +
+  facet_grid(. ~ Tahun)
+hist_
+  
