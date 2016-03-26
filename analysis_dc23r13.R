@@ -13,6 +13,9 @@ rm(list=ls())
 library(ggplot2)
 library(dplyr)
 
+# remove scientific numeric
+options(scipen=999)
+
 # load data.frame
 df3 <- read.csv(file.path('rawdata/dc23_data_harga_komoditas/R13_PANGAN_harga_pangan_tingkat_konsumen_maret_2015.csv'),
                 stringsAsFactors = FALSE)
@@ -68,7 +71,7 @@ hist_ <- ggplot(df, aes(x=Harga)) +
   geom_histogram(bins=nclass.Sturges(df$Harga),
                  color='black',
                  fill='white') +
-  ggtitle('Distribusi Harga Pangan Tingkat Konsumen Tahun 2015') +
+  ggtitle('Distribusi Harga Pangan Tingkat Konsumen DKI Jakarta Tahun 2015') +
   theme(plot.title=element_text(face='bold', size=15)) +
   labs(x='Harta per Kg/Liter',
        y='Frekuensi') +
@@ -77,7 +80,20 @@ hist_ <- ggplot(df, aes(x=Harga)) +
              color='red',
              size=1,
              alpha=.5) +
-  facet_grid(Wilayah ~ .)
+  facet_grid(. ~ Wilayah)
 hist_
 
 # Line chart
+line_ <- ggplot(df, aes(x=Tanggal, y=Harga)) +
+  geom_line(aes(color=Komoditi),size=1) +
+  geom_point(aes(color=Komoditi),
+             size=3,
+             shape=21,
+             fill='white') +
+  labs(color='Keterangan',
+       x='Bulan',
+       y='Harga per Kg/Liter (Rp.)') +
+  ggtitle('Harga Pangan Tingkat Konsumen DKI Jakarta Tahun 2015') +
+  theme(plot.title=element_text(face="bold", size=15)) +
+  facet_grid(. ~ Wilayah)
+line_
