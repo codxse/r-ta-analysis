@@ -68,7 +68,7 @@ data_vlines <- data.frame(Wilayah=levels(df$Wilayah),
                                  mean(filter(df, Wilayah == 'Jakarta Utara')$Harga)))
 
 hist_ <- ggplot(df, aes(x=Harga)) +
-  geom_histogram(bins=nclass.Sturges(df$Harga),
+  geom_histogram(bins=nclass.scott(df$Harga),
                  color='black',
                  fill='white') +
   ggtitle('Distribusi Harga Pangan Tingkat Konsumen DKI Jakarta Tahun 2015') +
@@ -82,6 +82,21 @@ hist_ <- ggplot(df, aes(x=Harga)) +
              alpha=.5) +
   facet_grid(. ~ Wilayah)
 hist_
+
+histAll_ <- ggplot(df, aes(x=Harga)) +
+  geom_histogram(bins=nclass.scott(df$Harga),
+                 color='black',
+                 fill='white') +
+  ggtitle('Distribusi Harga Pangan Tingkat Konsumen DKI Jakarta Tahun 2015') +
+  theme(plot.title=element_text(face='bold', size=15)) +
+  labs(x='Harta per Kg/Liter',
+       y='Frekuensi') +
+  geom_vline(data=data_vlines,
+             xintercept=mean(df$Harga),
+             color='red',
+             size=1,
+             alpha=.5)
+histAll_
 
 # Line chart
 line_ <- ggplot(df, aes(x=Tanggal, y=Harga)) +
