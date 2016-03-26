@@ -80,4 +80,15 @@ df$Tanggal <- as.Date(df$Tanggal)
 df$Komoditas <- as.factor(df$Komoditas)
 rm_na <- !(is.na(df$Harga))
 df.no_na <- df[rm_na, ] 
-df.no_na <- arrange(df.no_na, Tanggal)
+df_no_na <- arrange(df.no_na, Tanggal)
+
+## Data Visualization
+# Line chart
+line_ <- ggplot(df_no_na, aes(x=Tanggal, y=Harga)) +
+  geom_line(aes(color=Komoditas)) +
+  labs(color='Keterangan',
+       x='Tanggal',
+       y='Harga per Kg (Rp.)') +
+  ggtitle('Perkembangan Harga Grosir Di Pasar Induk Beras Cipinang\nDan Pasar Induk Kramat Jati Tahun 2015') +
+  theme(plot.title=element_text(face="bold", size=15))
+line_
