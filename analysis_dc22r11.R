@@ -6,8 +6,7 @@ setwd('~/Workspaces/r-ta-analysys')
 rm(list=ls())
 library(dplyr)
 library(ggplot2)
-if (!exists("multiplot", mode="function")) source("multiplot.R")
-options(digits=14)
+library(tidyr)
 
 # buka csv
 fpath = file.path('rawdata/dc22_data_ekspor_impor/R11_KEUANGAN_ekspor_2011.csv')
@@ -19,6 +18,7 @@ df <- read.csv(fpath,stringsAsFactors = FALSE)
 df$volume <- as.double(df$volume)
 df$nilai <- as.double(df$nilai)
 df$tahun <- as.Date(paste0(df$tahun,'/01/01'))
+df$jenis_komoditas <- as.factor(df$jenis_komoditas)
 
 ## k-Means Scree Diagram
 max_k <- 15
@@ -30,16 +30,52 @@ for (k in 1:max_k) {
   ratio_ss[k] <- df_km$tot.withinss/df_km$totss
 }
 
-plot(ratio_ss, type='b',xlab='k')
+scree_ <- plot(ratio_ss, type='b',xlab='k')
+scree_
 
-df_km <- kmeans(dummy, 6, 100)
+df_km <- kmeans(dummy, 3, 100)
 
 df$cluster <- as.factor(df_km$cluster)
 df_center <- df_km$centers
+df <- df %>%
+  arrange(cluster)
+levels(df$cluster) <- c('Barang Mentah',
+                         'Barang Setengan Jadi',
+                         'Barang Jadi')
   
 set.seed(100)
-ggplot(df, aes(x=volume, y=nilai)) +
+cluster_ <- ggplot(df, aes(x=volume, y=nilai)) +
   geom_point(aes(alpha=.1,
                  color=cluster),
-             position=position_jitter(width=1,height=1)) +
-  geom_point(data=df_center, aes(x=volume, y=nilai))
+             position=position_jitter(width=10,height=1)) +
+  ggtitle("Plot Volume Dan Nilai Ekspor Melalui DKI Jakarta\nMenurut Jenis Komoditi Tahun 2011-2012") +
+  theme(plot.title=element_text(face='bold',size=15)) +
+  xlab('Volume (Ton)') +
+  ylab('Nilai (Ribu USD)') +
+  guides(alpha=FALSE)
+cluster_
+
+## Data Visualization
+df.viz <- df
+df.viz$hs <- NULL
+names(df.viz) <- c('Tahun','Komoditas',
+                   'Volume','Nilai',
+                   'Grup')
+df.viz$Grup <- as.factor(df.viz$Grup)
+
+df.tidy <- gather(df.viz, key, Total, -c(1,2,5))
+
+df.tidy <- df.tidy %>%
+  arrange()
+
+bar_ <- ggplot(df.tidy, aes(x=format(Tahun,'%Y'))) +
+  geom_bar(position='fill',
+           stat='identity',
+           aes(fill=Grup,
+               y=Total)) +
+  scale_y_continuous(labels=scales::percent) +
+  ggtitle("Volume Ekspor Melalui DKI Jakarta Menurut Jenis Komoditi") +
+  theme(plot.title=element_text(face='bold',size=15)) +
+  xlab('Tahun') +
+  facet_grid(. ~ key)
+bar_
