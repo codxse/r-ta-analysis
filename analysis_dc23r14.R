@@ -79,8 +79,8 @@ names(df) <- c('Tanggal','Komoditas','Harga')
 df$Tanggal <- as.Date(df$Tanggal)
 df$Komoditas <- as.factor(df$Komoditas)
 rm_na <- !(is.na(df$Harga))
-df.no_na <- df[rm_na, ] 
-df_no_na <- arrange(df.no_na, Tanggal)
+df_no_na <- df[rm_na, ] 
+df_no_na <- arrange(df_no_na, Tanggal)
 
 ## Data Visualization
 # Line chart
@@ -92,3 +92,47 @@ line_ <- ggplot(df_no_na, aes(x=Tanggal, y=Harga)) +
   ggtitle('Perkembangan Harga Grosir Di Pasar Induk Beras Cipinang\nDan Pasar Induk Kramat Jati Tahun 2015') +
   theme(plot.title=element_text(face="bold", size=15))
 line_
+
+# distribution
+df_no_na$Bulan <- paste0(format(df_no_na$Tanggal, '%m'))
+df_no_na$Bulan <- as.factor(df_no_na$Bulan)
+data_vlines <- data.frame(Bulan=levels(df_no_na$Bulan),
+                          Harga=c(mean(filter(df_no_na, df_no_na$Bulan == '04')$Harga),
+                                  mean(filter(df_no_na, df_no_na$Bulan == '05')$Harga),
+                                  mean(filter(df_no_na, df_no_na$Bulan == '06')$Harga),
+                                  mean(filter(df_no_na, df_no_na$Bulan == '07')$Harga),
+                                  mean(filter(df_no_na, df_no_na$Bulan == '08')$Harga),
+                                  mean(filter(df_no_na, df_no_na$Bulan == '09')$Harga),
+                                  mean(filter(df_no_na, df_no_na$Bulan == '10')$Harga),
+                                  mean(filter(df_no_na, df_no_na$Bulan == '11')$Harga)))
+
+histAll_ <- ggplot(df_no_na, aes(x=Harga)) +
+  geom_histogram(bins=nclass.scott(df_no_na$Harga),
+                 color='black',
+                 fill='white') +
+  ggtitle('Distribusi Perkembangan Harga Grosir Di Pasar Induk Beras Cipinang\nDan Pasar Induk Kramat Jati Tahun 2015') +
+  theme(plot.title=element_text(face='bold', size=15)) +
+  labs(x='Harta per Kg (Rp.)',
+       y='Frekuensi') +
+  geom_vline(data=data_vlines,
+             xintercept=mean(df_no_na$Harga),
+             color='red',
+             size=1,
+             alpha=.5)
+histAll_
+
+hist_ <- ggplot(df_no_na, aes(x=Harga)) +
+  geom_histogram(bins=nclass.scott(df_no_na$Harga),
+                 color='black',
+                 fill='white') +
+  ggtitle('Distribusi Perkembangan Harga Grosir Di Pasar Induk Beras Cipinang\nDan Pasar Induk Kramat Jati Tahun 2015 per Bulan') +
+  theme(plot.title=element_text(face='bold', size=15)) +
+  labs(x='Harta per Kg (Rp.)',
+       y='Frekuensi') +
+  geom_vline(data=data_vlines,
+             aes(xintercept=Harga),
+             color='red',
+             size=1,
+             alpha=.5) +
+  facet_grid(Bulan ~ .)
+hist_
