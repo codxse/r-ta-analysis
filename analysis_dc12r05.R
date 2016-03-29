@@ -19,9 +19,9 @@ df <- read.csv(fpath,stringsAsFactors = FALSE) %>%
   arrange(tahun)
 
 title <- c('Pendapatan Perkapitra Jakarta dan Nasional')
-x <- c('Perkapita Jakarta (Juta Rp.)','Tahun')
-y <- c('Perkapita Nasional (Juta Rp.)')
-model_pred <- 'y = 0.3322x - 3.1573'
+x <- c('Perkapita Jakarta','Tahun')
+y <- c('Perkapita Nasional')
+model_pred <- 'f(x) = 0.3322x - 3.1573'
 
 # Hapus Outlier
 # No Outlier
@@ -29,12 +29,16 @@ model_pred <- 'y = 0.3322x - 3.1573'
 ## Using tidyr
 df.tidy <- gather(df, variable, persen, -tahun)
 
-line1 <- ggplot(df.tidy, aes(x=tahun, y=persen,col=variable)) +
+line1_ <- ggplot(df.tidy, aes(x=tahun, y=persen,col=variable)) +
   geom_line() +
   scale_color_manual('Keterangan',
                      values=c('red','blue'),
                      labels=c(x[1],y[1])) +
-  ggtitle(title[1])
+  labs(x='Tahun',
+       y='Pendapatan Perkapita (Juta Rp.)') +
+  ggtitle('Pendapatan Perkapita\nDKI Jakarta dan Nasional Tahun 2008-2012') +
+  theme(plot.title=element_text(face="bold", size=15))
+line1_
 
 ## Buat Model Linear ggplot2
 # Perkapita Nasional vs Perkapita Jakarta
@@ -45,15 +49,17 @@ line1 <- ggplot(df.tidy, aes(x=tahun, y=persen,col=variable)) +
 # cor(df$perkapita_nasional, df$perkapita_nasional)
 
 ## Scatter Plot
-plot1 <- ggplot(df,aes(x=perkapita_jakarta,
+plot1_ <- ggplot(df,aes(x=perkapita_jakarta,
                        y=perkapita_nasional)) +
   geom_point() + 
-  xlab(x[1]) +
-  ylab(y[1]) +
-  ggtitle(title[1])
+  labs(x=x[1],
+       y=y[1]) +
+  ggtitle('Plot Pendapatan Perkapita DKI Jakarta vs. Nasional') +
+  theme(plot.title=element_text(face="bold", size=15))
+plot1_
 
 ## Resedual y_pred - perkapita_nasional
-ggplot(df,aes(x=perkapita_jakarta,
+plotRes_ <- ggplot(df,aes(x=perkapita_jakarta,
               y=perkapita_nasional)) +
   geom_point() +
   geom_smooth(method='lm',se=FALSE,aes(col='red')) +
@@ -62,34 +68,39 @@ ggplot(df,aes(x=perkapita_jakarta,
                    xend=perkapita_jakarta,
                    yend=fitted(lm(perkapita_nasional~perkapita_jakarta,
                                   data=df)))) +
-  xlab(x[1]) +
-  ylab(y[1]) +
-  ggtitle(title[1]) +
-  guides(col=F)
+  labs(x=x[1],
+       y=y[1]) +
+  ggtitle('Plot Pendapatan Perkapita DKI Jakarta vs. Nasional') +
+  theme(plot.title=element_text(face="bold", size=15)) +
+  guides(col=FALSE)
+plotRes_
 
 ## Linear Model without SE
 # fit <- lm(df$perkapita_nasional ~ df$perkapita_jakarta)
 # library(ggvis)
 # compute_model_prediction(df,perkapita_nasional~perkapita_jakarta,model='lm',se=TRUE)
-ggplot(df,aes(x=perkapita_jakarta,
+modelNoSe_ <- ggplot(df,aes(x=perkapita_jakarta,
               y=perkapita_nasional)) +
   geom_point() +
   geom_smooth(method='lm',se=FALSE,aes(col='red')) +
-  xlab(x[1]) +
-  ylab(y[1]) +
-  ggtitle(title[1]) +
-  scale_color_manual('f(x)',values='red',labels=model_pred)
+  labs(x=x[1],
+       y=y[1]) +
+  ggtitle('Model Prediction\nPendapatan Perkapita DKI Jakarta vs. Nasional') +
+  theme(plot.title=element_text(face="bold", size=15)) +
+  scale_color_manual('Model',values='red',labels=model_pred)
+modelNoSe_
 
 ## Linear Model with SE
-ggplot(df,aes(x=perkapita_jakarta,
+modelSe_ <- ggplot(df,aes(x=perkapita_jakarta,
               y=perkapita_nasional)) +
   geom_point() +
   geom_smooth(method='lm',se=TRUE,aes(col='red')) +
-  xlab(x[1]) +
-  ylab(y[1]) +
-  ggtitle(title[1]) +
-  scale_color_manual('f(x)',values='red',labels=model_pred) +
-  guides(size=F)
+  labs(x=x[1],
+       y=y[1]) +
+  ggtitle('Model Prediction\nPendapatan Perkapita DKI Jakarta vs. Nasional') +
+  theme(plot.title=element_text(face="bold", size=15)) +
+  guides(col=FALSE)
+modelSe_
 
 ## Confident Interval inflasi 7% (x=7)
 predict(lm(perkapita_nasional~perkapita_jakarta,
@@ -97,49 +108,36 @@ predict(lm(perkapita_nasional~perkapita_jakarta,
         data.frame(perkapita_jakarta=50),
         interval='confidence')
 
-## Interactive Plot
-model_1 <- ggplot(df,aes(x=perkapita_jakarta,
-                         y=perkapita_nasional),
-                  size=.1) +
-  geom_point() +
-  geom_smooth(method='lm',se=TRUE,aes(col='red')) +
-  xlab(x[1]) +
-  ylab(y[1]) +
-  ggtitle(title[1]) +
-  scale_color_manual('f(x)',values='red',labels=model_pred) +
-  guides(size=F)
-
-## Invoke
-# ggplotly(model_1)
-
 ## Data Visualization
 df$tahun <- as.Date(paste0(df$tahun,'/01/01'))
 
 # Model Prediction
-ggplot(df,aes(x=perkapita_jakarta,
+modelPred_ <- ggplot(df,aes(x=perkapita_jakarta,
               y=perkapita_nasional)) +
   geom_point() +
   geom_smooth(method='lm',se=TRUE,aes(col='red')) +
-  xlab(x[1]) +
-  ylab(y[1]) +
-  ggtitle('Model Prediction Pendapatan Perkapita Jakarta vs. Nasional') +
+  labs(x=x[1],
+       y=y[1]) +
+  ggtitle('Model Prediction\nPendapatan Perkapita Jakarta vs. Nasional') +
   theme(plot.title=element_text(face="bold", size=15)) +
-  scale_color_manual('Linear Model',values='red',labels=model_pred) +
+  scale_color_manual('Model',values='red',labels=model_pred) +
   guides(size=F)
+modelPred_
 
 df.viz <- df
 names(df.viz) <- c('Tahun', 'Pendapatan Perkapita Jakarta',
                    'Pendapatan Perkapita Nasional')
 df.viz <- gather(df.viz, key, value, -Tahun)
 
-ggplot(df.viz, aes(x=Tahun, y=value)) +
+line_ <- ggplot(df.viz, aes(x=Tahun, y=value)) +
   geom_line(aes(color=key),size=1) +
   geom_point(aes(color=key),
-             size=4,
+             size=3,
              shape=21,
              fill='white') +
-  labs(color='Keterangan') +
-  ggtitle('Pendapatan Perkapita DKI Jakarta vs. Nasional') +
-  theme(plot.title=element_text(face="bold", size=15)) +
-  ylab('Pendapatan (Juta Rp.)') +
-  xlab('Tahun')
+  labs(color='Keterangan',
+       x='Tahun',
+       y='Pendapatan Perkapita (Juta Rp.)') +
+  ggtitle('Pendapatan Perkapita\nDKI Jakarta vs. Nasional Tahun 2006-2012') +
+  theme(plot.title=element_text(face="bold", size=15))
+line_
