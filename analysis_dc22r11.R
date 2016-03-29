@@ -8,6 +8,9 @@ library(dplyr)
 library(ggplot2)
 library(tidyr)
 
+# remove scientific numeric
+options(scipen=999)
+
 # buka csv
 fpath = file.path('rawdata/dc22_data_ekspor_impor/R11_KEUANGAN_ekspor_2011.csv')
 df <- read.csv(fpath,stringsAsFactors = FALSE)
@@ -44,14 +47,15 @@ levels(df$cluster) <- c('Barang Mentah',
                          'Barang Jadi')
   
 set.seed(100)
-cluster_ <- ggplot(df, aes(x=volume, y=nilai)) +
+cluster_ <- ggplot(df, aes(x=volume, y=nilai/1000000)) +
   geom_point(aes(alpha=.1,
                  color=cluster),
              position=position_jitter(width=10,height=1)) +
+  labs(color='Grup',
+       x='Volume (Ton)',
+       y='Juta USD') +
   ggtitle("Plot Volume Dan Nilai Ekspor Melalui DKI Jakarta\nMenurut Jenis Komoditi Tahun 2011-2012") +
   theme(plot.title=element_text(face='bold',size=15)) +
-  xlab('Volume (Ton)') +
-  ylab('Nilai (Ribu USD)') +
   guides(alpha=FALSE)
 cluster_
 
@@ -74,8 +78,9 @@ bar_ <- ggplot(df.tidy, aes(x=format(Tahun,'%Y'))) +
            aes(fill=Grup,
                y=Total)) +
   scale_y_continuous(labels=scales::percent) +
-  ggtitle("Volume Ekspor Melalui DKI Jakarta Menurut Jenis Komoditi") +
+  labs(x='Tahun',
+       y='Total (%)') +
+  ggtitle("Volume Ekspor Melalui DKI Jakarta\nTahun 2011-2012") +
   theme(plot.title=element_text(face='bold',size=15)) +
-  xlab('Tahun') +
   facet_grid(. ~ key)
 bar_

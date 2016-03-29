@@ -21,15 +21,18 @@ names(df) <- c('Komponen','Tanggal','Inflasi')
 
 line_ <- ggplot(df, aes(x=Tanggal,y=Inflasi)) +
   geom_line(aes(color=Komponen),size=1) +
+#   geom_hline(yintercept=mean(df$Inflasi),
+#              size=1,
+#              linetype="dashed") +
   geom_point(aes(color=Komponen),
-             size=4,
+             size=3,
              shape=21,
              fill='white') +
+  labs(x='Bulan',
+       y='Inflasi (%)',
+       line='Rata-rata') +
   ggtitle('Komponen Inflasi DKI Jakarta\nBulan Januari-Juni 2012') +
-  theme(plot.title=element_text(face='bold',size=15)) +
-  ylab('Inflasi (%)') +
-  xlab('Bulan')
-
+  theme(plot.title=element_text(face='bold',size=15))
 line_
 
 # Pie Chart As Chategorical
@@ -58,9 +61,8 @@ df.tab$Komponen <- paste0(df.tab$Komponen," (",
 pie_ <- ggplot(df.tab, aes(x='',y=Persen,fill=Komponen)) +
   geom_bar(width=10,stat='identity') +
   coord_polar('y', start=0) +
-  ggtitle("Persentasi Komponen Inflasi DKI Jakarta\nBulan Januari - Juni 2012") +
-  theme(plot.title=element_text(face='bold',size=15)) +
+  ggtitle("Persentasi Komponen Inflasi\nBulan Januari-Juni 2012 DKI Jakarta") +
+  theme(plot.title=element_text(face='bold',size=13)) +
   scale_x_discrete('') +
   xlab('Komponen (%)')
-
 pie_

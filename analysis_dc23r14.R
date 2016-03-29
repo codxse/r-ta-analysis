@@ -106,11 +106,11 @@ data_vlines <- data.frame(Bulan=levels(df_no_na$Bulan),
                                   mean(filter(df_no_na, df_no_na$Bulan == '10')$Harga),
                                   mean(filter(df_no_na, df_no_na$Bulan == '11')$Harga)))
 
-histAll_ <- ggplot(df_no_na, aes(x=Harga)) +
+distAll_ <- ggplot(df_no_na, aes(x=Harga)) +
   geom_histogram(bins=nclass.scott(df_no_na$Harga),
                  color='black',
                  fill='white') +
-  ggtitle('Distribusi Perkembangan Harga Grosir Di Pasar Induk Beras Cipinang\nDan Pasar Induk Kramat Jati Tahun 2015') +
+  ggtitle('Distribusi Harga Grosir Di Pasar Induk Beras Cipinang\nDan Pasar Induk Kramat Jati Tahun 2015') +
   theme(plot.title=element_text(face='bold', size=15)) +
   labs(x='Harta per Kg (Rp.)',
        y='Frekuensi') +
@@ -119,13 +119,13 @@ histAll_ <- ggplot(df_no_na, aes(x=Harga)) +
              color='red',
              size=1,
              alpha=.5)
-histAll_
+distAll_
 
-hist_ <- ggplot(df_no_na, aes(x=Harga)) +
+dist_ <- ggplot(df_no_na, aes(x=Harga)) +
   geom_histogram(bins=nclass.scott(df_no_na$Harga),
                  color='black',
                  fill='white') +
-  ggtitle('Distribusi Perkembangan Harga Grosir Di Pasar Induk Beras Cipinang\nDan Pasar Induk Kramat Jati Tahun 2015 per Bulan') +
+  ggtitle('Distribusi Harga Grosir Di Pasar Induk Beras Cipinang\nDan Pasar Induk Kramat Jati Tahun 2015 per Bulan') +
   theme(plot.title=element_text(face='bold', size=15)) +
   labs(x='Harta per Kg (Rp.)',
        y='Frekuensi') +
@@ -135,4 +135,4 @@ hist_ <- ggplot(df_no_na, aes(x=Harga)) +
              size=1,
              alpha=.5) +
   facet_grid(Bulan ~ .)
-hist_
+dist_

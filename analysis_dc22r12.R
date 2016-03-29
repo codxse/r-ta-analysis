@@ -9,6 +9,9 @@ setwd('~/Workspaces/r-ta-analysys')
 rm(list=ls())
 library(ggplot2)
 
+# remove scientific numeric
+options(scipen=999)
+
 ## clean csv
 df1 <- read.csv(file.path('rawdata/dc22_data_ekspor_impor/R12_KEUANGAN_impor_hs_2_mei_2014.csv'),
                 stringsAsFactors = FALSE)
@@ -71,7 +74,7 @@ line_ <- ggplot(df.viz, aes(x=Bulan, y=Nilai)) +
              size=3,
              shape=21,
              fill='white') +
-  ggtitle('Nilai Ekspor Produk DKI Jakarta\nMenurut Golongan Barang') +
+  ggtitle('Nilai Impor DKI Jakarta\nMenurut Golongan Barang Tahun 2013-2014') +
   theme(plot.title=element_text(face='bold', size=15)) +
   labs(y='Juta USD',
        x='Bulan')
@@ -84,11 +87,11 @@ mean2014 <- mean(subset(df.viz, df.viz$Tahun == 2014)$Nilai)
 data_vlines <- data.frame(Tahun=levels(df.viz$Tahun),
                           Nilai=c(mean2013,mean2014))
 
-hist_ <- ggplot(df.viz, aes(x=Nilai)) +
+dist_ <- ggplot(df.viz, aes(x=Nilai)) +
   geom_histogram(bins=nclass.Sturges(df.viz$Nilai),
                  color='black',
                  fill='white') +
-  ggtitle('Distribusi Ekspor Produk DKI Jakarta Menurut Golongan Barang') +
+  ggtitle('Distribusi Impor DKI Jakarta Menurut Golongan Barang\nTahun 2013 dan 2014') +
   theme(plot.title=element_text(face='bold', size=15)) +
   labs(x='Juta USD',
        y='Frekuensi') +
@@ -98,4 +101,4 @@ hist_ <- ggplot(df.viz, aes(x=Nilai)) +
              size=1,
              alpha=.5) +
   facet_grid(. ~ Tahun)
-hist_
+dist_

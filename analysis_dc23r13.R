@@ -67,7 +67,7 @@ data_vlines <- data.frame(Wilayah=levels(df$Wilayah),
                                  mean(filter(df, Wilayah == 'Jakarta Timur')$Harga),
                                  mean(filter(df, Wilayah == 'Jakarta Utara')$Harga)))
 
-hist_ <- ggplot(df, aes(x=Harga)) +
+dist_ <- ggplot(df, aes(x=Harga)) +
   geom_histogram(bins=nclass.scott(df$Harga),
                  color='black',
                  fill='white') +
@@ -81,9 +81,9 @@ hist_ <- ggplot(df, aes(x=Harga)) +
              size=1,
              alpha=.5) +
   facet_grid(. ~ Wilayah)
-hist_
+dist_
 
-histAll_ <- ggplot(df, aes(x=Harga)) +
+distAll_ <- ggplot(df, aes(x=Harga)) +
   geom_histogram(bins=nclass.scott(df$Harga),
                  color='black',
                  fill='white') +
@@ -96,7 +96,7 @@ histAll_ <- ggplot(df, aes(x=Harga)) +
              color='red',
              size=1,
              alpha=.5)
-histAll_
+distAll_
 
 # Line chart
 line_ <- ggplot(df, aes(x=Tanggal, y=Harga)) +

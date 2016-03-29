@@ -26,7 +26,7 @@ title <- c('Scatter Plot "Kenaikan UMP (%)" vs. "Inflasi (%)"',
            'Histogram "Kenaikan UMP (%)" dengan "Inflasi (%)"')
 x <- c('Inflasi (%)','Tahun')
 y <- c('Kenaikan UMP (%)','UMP (Rp) / 10.000')
-model_pred <- 'y = 1.835x + 6.637'
+model_pred <- 'f(x) = 1.835x + 6.637'
 
 # Buat kolom outlier
 df <- df %>%
@@ -144,7 +144,7 @@ modelPred_ <- ggplot(df_no_outlier,aes(x=inflasi,y=kenaikan_ump)) +
   ylab(y[1]) +
   ggtitle('Model Prediction\nKenaikan UMP vs. Inflasi DKI Jakarta') +
   theme(plot.title=element_text(face="bold", size=15)) +
-  scale_color_manual('Linear Model',values='red',labels=model_pred) +
+  scale_color_manual('Model',values='red',labels=model_pred) +
   guides(size=F)
 modelPred_
 

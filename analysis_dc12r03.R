@@ -122,7 +122,7 @@ modelPred_ <- ggplot(df,aes(x=persen_tumbuh_jakarta,
   ylab(y[1]) +
   ggtitle('Model Prediction\nPertumbuhan Ekonomi Jakarta vs. Nasional') +
   theme(plot.title=element_text(face="bold", size=15)) +
-  scale_color_manual('Linear Model',values='red',labels=model_pred) +
+  scale_color_manual('Model',values='red',labels=model_pred) +
   guides(size=F)
 modelPred_
 

@@ -7,6 +7,9 @@ rm(list=ls())
 library(tidyr)
 library(ggplot2)
 
+# remove scientific numeric
+options(scipen=999)
+
 # buka csv
 fpath = file.path('rawdata/dc22_data_ekspor_impor/R07_PEREKONOMIAN_ekspor_impor_jakarta_2006_2012.csv')
 df <- read.csv(fpath,stringsAsFactors = FALSE)
@@ -25,12 +28,12 @@ df.viz$value <- as.numeric(df.viz$value)
 line_ <- ggplot(df.viz, aes(x=Tahun, y=value)) +
   geom_line(aes(color=key), size=1) +
   geom_point(aes(color=key),
-             size=4,
+             size=3,
              shape=21,
              fill='white') +
+  labs(color='Keterangan',
+       x='Tahun',
+       y='Juta USD') +
   ggtitle('Data Ekspor Impor DKI Jakarta 2006-2012') +
-  theme(plot.title=element_text(face='bold',size=15)) +
-  ylab('Juta USD') +
-  xlab('Tahun')
-
+  theme(plot.title=element_text(face='bold',size=15))
 line_
