@@ -47,9 +47,28 @@ levels(df$cluster) <- c('Barang Mentah',
                          'Barang Jadi')
   
 set.seed(100)
-cluster_ <- ggplot(df, aes(x=volume, y=nilai/1000000)) +
-  geom_point(aes(alpha=.1,
-                 color=cluster),
+plot_ <- ggplot(df, aes(x=volume,y=nilai)) +
+  geom_point(alpha=.5,
+             position=position_jitter(width=10,height=1)) +
+  labs(x='Volume (Ton)',
+       y='Juta USD') 
+plot_
+
+set.seed(100)
+plotCol_ <- ggplot(df, aes(x=volume, y=nilai)) +
+  geom_point(aes(color=cluster),
+             alpha=.5,
+             position=position_jitter(width=10,height=1)) +
+  labs(x='Volume (Ton)',
+       y='Juta USD') +
+  guides(alpha=FALSE,
+         color=FALSE)
+plotCol_
+
+set.seed(100)
+cluster_ <- ggplot(df, aes(x=volume, y=nilai)) +
+  geom_point(aes(acolor=cluster),
+             alpha=.5,
              position=position_jitter(width=10,height=1)) +
   labs(color='Grup',
        x='Volume (Ton)',
