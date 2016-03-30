@@ -84,11 +84,11 @@ df_no_na <- arrange(df_no_na, Tanggal)
 
 ## Data Visualization
 # Line chart
-line_ <- ggplot(df_no_na, aes(x=Tanggal, y=Harga)) +
+line_ <- ggplot(df_no_na, aes(x=Tanggal, y=Harga/1000)) +
   geom_line(aes(color=Komoditas)) +
   labs(color='Keterangan',
        x='Tanggal',
-       y='Harga per Kg (Rp.)') +
+       y='Harga per Kg (Ribu Rp.)') +
   ggtitle('Perkembangan Harga Grosir Di Pasar Induk Beras Cipinang\nDan Pasar Induk Kramat Jati Tahun 2015') +
   theme(plot.title=element_text(face="bold", size=15))
 line_
@@ -106,13 +106,14 @@ data_vlines <- data.frame(Bulan=levels(df_no_na$Bulan),
                                   mean(filter(df_no_na, df_no_na$Bulan == '10')$Harga),
                                   mean(filter(df_no_na, df_no_na$Bulan == '11')$Harga)))
 
+h <- 3.5*sd(df_no_na$Harga)*length(df_no_na$Harga)^(-1/3)
 distAll_ <- ggplot(df_no_na, aes(x=Harga)) +
-  geom_histogram(bins=nclass.scott(df_no_na$Harga),
+  geom_histogram(binwidth=h,
                  color='black',
                  fill='white') +
   ggtitle('Distribusi Harga Grosir Di Pasar Induk Beras Cipinang\nDan Pasar Induk Kramat Jati Tahun 2015') +
   theme(plot.title=element_text(face='bold', size=15)) +
-  labs(x='Harta per Kg (Rp.)',
+  labs(x='Harga per Kg (Rp.)',
        y='Frekuensi') +
   geom_vline(data=data_vlines,
              xintercept=mean(df_no_na$Harga),
@@ -122,12 +123,12 @@ distAll_ <- ggplot(df_no_na, aes(x=Harga)) +
 distAll_
 
 dist_ <- ggplot(df_no_na, aes(x=Harga)) +
-  geom_histogram(bins=nclass.scott(df_no_na$Harga),
+  geom_histogram(binwidth=h,
                  color='black',
                  fill='white') +
   ggtitle('Distribusi Harga Grosir Di Pasar Induk Beras Cipinang\nDan Pasar Induk Kramat Jati Tahun 2015 per Bulan') +
   theme(plot.title=element_text(face='bold', size=15)) +
-  labs(x='Harta per Kg (Rp.)',
+  labs(x='Harga per Kg (Rp.)',
        y='Frekuensi') +
   geom_vline(data=data_vlines,
              aes(xintercept=Harga),

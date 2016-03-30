@@ -67,13 +67,14 @@ data_vlines <- data.frame(Wilayah=levels(df$Wilayah),
                                  mean(filter(df, Wilayah == 'Jakarta Timur')$Harga),
                                  mean(filter(df, Wilayah == 'Jakarta Utara')$Harga)))
 
+h <- 3.5*sd(df$Harga)*length(df$Harga)^(-1/3)
 dist_ <- ggplot(df, aes(x=Harga)) +
-  geom_histogram(bins=nclass.scott(df$Harga),
+  geom_histogram(binwidth=h,
                  color='black',
                  fill='white') +
   ggtitle('Distribusi Harga Pangan Tingkat Konsumen DKI Jakarta Tahun 2015') +
   theme(plot.title=element_text(face='bold', size=15)) +
-  labs(x='Harta per Kg/Liter',
+  labs(x='Harga per Kg/Liter (Rp.)',
        y='Frekuensi') +
   geom_vline(data=data_vlines,
              aes(xintercept=Harga),
@@ -84,12 +85,12 @@ dist_ <- ggplot(df, aes(x=Harga)) +
 dist_
 
 distAll_ <- ggplot(df, aes(x=Harga)) +
-  geom_histogram(bins=nclass.scott(df$Harga),
+  geom_histogram(binwidth = h,
                  color='black',
                  fill='white') +
-  ggtitle('Distribusi Harga Pangan Tingkat Konsumen DKI Jakarta Tahun 2015') +
+  ggtitle('Distribusi Harga Pangan DKI Jakarta\nTingkat Konsumen Tahun 2015') +
   theme(plot.title=element_text(face='bold', size=15)) +
-  labs(x='Harta per Kg/Liter',
+  labs(x='Harga per Kg/Liter (Rp.)',
        y='Frekuensi') +
   geom_vline(data=data_vlines,
              xintercept=mean(df$Harga),
@@ -99,7 +100,7 @@ distAll_ <- ggplot(df, aes(x=Harga)) +
 distAll_
 
 # Line chart
-line_ <- ggplot(df, aes(x=Tanggal, y=Harga)) +
+line_ <- ggplot(df, aes(x=Tanggal, y=Harga/1000)) +
   geom_line(aes(color=Komoditi),size=1) +
   geom_point(aes(color=Komoditi),
              size=3,
@@ -107,7 +108,7 @@ line_ <- ggplot(df, aes(x=Tanggal, y=Harga)) +
              fill='white') +
   labs(color='Keterangan',
        x='Bulan',
-       y='Harga per Kg/Liter (Rp.)') +
+       y='Harga per Kg/Liter (Ribu Rp.)') +
   ggtitle('Harga Pangan Tingkat Konsumen DKI Jakarta Tahun 2015') +
   theme(plot.title=element_text(face="bold", size=15)) +
   facet_grid(. ~ Wilayah)

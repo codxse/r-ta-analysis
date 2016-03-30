@@ -87,8 +87,9 @@ mean2014 <- mean(subset(df.viz, df.viz$Tahun == 2014)$Nilai)
 data_vlines <- data.frame(Tahun=levels(df.viz$Tahun),
                           Nilai=c(mean2013,mean2014))
 
+h <- 3.5*sd(df.viz$Nilai)*length(df.viz$Nilai)^(-1/3)
 dist_ <- ggplot(df.viz, aes(x=Nilai)) +
-  geom_histogram(bins=nclass.Sturges(df.viz$Nilai),
+  geom_histogram(binwidth=h,
                  color='black',
                  fill='white') +
   ggtitle('Distribusi Impor DKI Jakarta Menurut Golongan Barang\nTahun 2013 dan 2014') +
@@ -102,3 +103,17 @@ dist_ <- ggplot(df.viz, aes(x=Nilai)) +
              alpha=.5) +
   facet_grid(. ~ Tahun)
 dist_
+
+distAll_ <- ggplot(df.viz, aes(x=Nilai)) +
+  geom_histogram(binwidth=h,
+                 color='black',
+                 fill='white') +
+  ggtitle('Distribusi Impor DKI Jakarta Menurut Golongan Barang') +
+  theme(plot.title=element_text(face='bold', size=15)) +
+  labs(x='Juta USD',
+       y='Frekuensi') +
+  geom_vline(xintercept=mean(df.viz$Nilai),
+             color='red',
+             size=1,
+             alpha=.5)
+distAll_
