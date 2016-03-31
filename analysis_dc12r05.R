@@ -116,8 +116,8 @@ modelPred_ <- ggplot(df,aes(x=perkapita_jakarta,
               y=perkapita_nasional)) +
   geom_point() +
   geom_smooth(method='lm',se=TRUE,aes(col='red')) +
-  labs(x=x[1],
-       y=y[1]) +
+  labs(x='Perkapita Jakarta (Juta Rp.)',
+       y='Perkapita Jakarta (Juta Rp.)') +
   ggtitle('Model Prediction\nPendapatan Perkapita Jakarta vs. Nasional') +
   theme(plot.title=element_text(face="bold", size=15)) +
   scale_color_manual('Model',values='red',labels=model_pred) +

@@ -43,18 +43,22 @@ df.tidy <- gather(df, variable, persen, -tahun, -keterangan)
 df.tidy <- df.tidy %>%
   filter(variable != 'ump')
 
-line1 <- ggplot(df.tidy, aes(x=tahun, y=persen,col=variable)) +
-  geom_line() +
-  scale_color_manual('Keterangan',
-                      values=c('blue','red'),
-                      labels=c('% Inflasi','% Kenaikan UMP')) +
-  ggtitle(title[2])
+line1_ <- ggplot(df.tidy, aes(x=tahun, y=persen,col=variable)) +
+  geom_line(size=1) +
+  labs(x='Tahun',
+       y='Inflasi (%)') +
+  ggtitle("Kenaikan UMP vs. Inflasi") +
+  theme(plot.title=element_text(face="bold", size=15))
+line1_
 
 ## Histogram Inflasi & Kenaikan UMP
 hist_ <- ggplot(df.tidy, aes(x=persen, fill=keterangan)) +
   geom_histogram(bins=30,color='white',alpha=.75,position="identity") +
-  facet_grid(variable ~ .) +
-  ggtitle(title[3])
+  labs(x='Inflasi (%)',
+       y='Frekuensi') +
+  ggtitle("Histogram Kenaikan UMP vs. Inflasi") +
+  theme(plot.title=element_text(face="bold", size=15)) +
+  facet_grid(variable ~ .)
 hist_
   
 ## Buat Model Linear ggplot2
@@ -99,7 +103,8 @@ plotRes_ <- ggplot(df_no_outlier,aes(x=inflasi,y=kenaikan_ump)) +
                    yend=fitted(lm(kenaikan_ump~inflasi,data=df_no_outlier)))) +
   xlab(x[1]) +
   ylab(y[1]) +
-  ggtitle(title[1]) +
+  ggtitle('Plot Kenaikan UMP vs. Inflasi') +
+  theme(plot.title=element_text(face="bold", size=15)) +
   guides(col=F)
 plotRes_
 
@@ -110,21 +115,26 @@ plotRes_
 plotNoSe_ <- ggplot(df_no_outlier,aes(x=inflasi,y=kenaikan_ump)) +
   geom_point() +
   geom_smooth(method='lm',se=FALSE,aes(col='red')) +
-  xlab(x[1]) +
-  ylab(y[1]) +
-  ggtitle(title[1]) +
-  scale_color_manual('f(x)',values='red',labels=model_pred)
+  labs(x='Inflasi (%)',
+       y='Kenaikan UMP (%)') +
+  ggtitle('Model Prediction Kenaikan UMP vs. Inflasi') +
+  theme(plot.title=element_text(face="bold", size=15)) +
+  scale_color_manual('Model',
+                     values='red',
+                     labels=model_pred)
 plotNoSe_
 
 ## Linear Model with SE
 plotSe_ <- ggplot(df_no_outlier,aes(x=inflasi,y=kenaikan_ump)) +
   geom_point() +
   geom_smooth(method='lm',se=TRUE,aes(col='red'),size=1) +
-  xlab(x[1]) +
-  ylab(y[1]) +
-  ggtitle(title[1]) +
-  scale_color_manual('f(x)',values='red',labels=model_pred) +
-  guides(size=F)
+  labs(x='Inflasi (%)',
+       y='Kenaikan UMP (%)') +
+  ggtitle('Model Prediction Kenaikan UMP vs. Inflasi') +
+  theme(plot.title=element_text(face="bold", size=15)) +
+  scale_color_manual('Model',
+                     values='red',
+                     labels=model_pred)
 plotSe_
 
 ## Confident Interval inflasi 7% (x=7)

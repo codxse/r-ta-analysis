@@ -126,7 +126,7 @@ dist_ <- ggplot(df_no_na, aes(x=Harga)) +
   geom_histogram(binwidth=h,
                  color='black',
                  fill='white') +
-  ggtitle('Distribusi Harga Grosir Di Pasar Induk Beras Cipinang\nDan Pasar Induk Kramat Jati Tahun 2015 per Bulan') +
+  ggtitle('Distribusi Harga Grosir\nDi Pasar Induk Beras Cipinang\nDan Pasar Induk Kramat Jati\nTahun 2015 per Bulan') +
   theme(plot.title=element_text(face='bold', size=15)) +
   labs(x='Harga per Kg (Rp.)',
        y='Frekuensi') +
