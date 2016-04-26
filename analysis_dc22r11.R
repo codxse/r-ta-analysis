@@ -24,7 +24,7 @@ df$nilai <- as.double(df$nilai)
 df$tahun <- as.Date(paste0(df$tahun,'/01/01'))
 df$jenis_komoditas <- as.factor(df$jenis_komoditas)
 
-set.seed(100)
+set.seed(5)
 ## k-Means Scree Diagram
 max_k <- 15
 ratio_ss <- c(rep(0,max_k))
@@ -159,7 +159,7 @@ plotCol_
 
 set.seed(100)
 cluster_ <- ggplot(df, aes(x=volume, y=nilai)) +
-  geom_point(aes(acolor=cluster),
+  geom_point(aes(color=cluster),
              alpha=.5,
              position=position_jitter(width=10,height=1)) +
   labs(color='Grup',
