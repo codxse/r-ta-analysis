@@ -94,6 +94,7 @@ df_2013$persen[5:9] <- vec[5:9]
 
 ## bind data
 df_bind <- rbind(df_2009, df_2010, df_2011, df_2012, df_2013)
+df_bind$tahun <- as.character(format(df_bind$tahun, "%Y"))
 
 # ggplot2 plot graph
 plot_ <- ggplot(df, aes(x=tahun,y=jumlah/1000)) +
@@ -121,3 +122,14 @@ line_ <- ggplot(df, aes(x=tahun, y=jumlah/1000)) +
   theme(plot.title=element_text(face="bold", size=15)) +
   guides(size=FALSE)
 line_
+
+# pie chart
+pieLowongan_ <- ggplot(df_bind, aes(x='',y=persen,fill=rincian_indikator)) +
+  geom_bar(width=10,stat='identity') +
+  coord_polar('y', start=0) +
+  ggtitle("Persentasi Ikhtisar Statistik DKI Jakarta") +
+  theme(plot.title=element_text(face='bold',size=13)) +
+  labs(x='Persen (%)',
+       y='Persen (%)') +
+  facet_grid(kategori ~ tahun)
+pieLowongan_
