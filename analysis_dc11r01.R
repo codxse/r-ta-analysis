@@ -124,12 +124,13 @@ line_ <- ggplot(df, aes(x=tahun, y=jumlah/1000)) +
 line_
 
 # pie chart
-pieLowongan_ <- ggplot(df_bind, aes(x='',y=persen,fill=rincian_indikator)) +
+pie_ <- ggplot(df_bind, aes(x='',y=persen,fill=rincian_indikator)) +
   geom_bar(width=10,stat='identity') +
   coord_polar('y', start=0) +
-  ggtitle("Persentasi Ikhtisar Statistik DKI Jakarta") +
+  ggtitle("Persentasi Ikhtisar Statistik DKI Jakarta Tahun 2009-2013") +
   theme(plot.title=element_text(face='bold',size=13)) +
   labs(x='Persen (%)',
        y='Persen (%)') +
+  guides(fill=guide_legend(title='Rincian Indikator')) +
   facet_grid(kategori ~ tahun)
-pieLowongan_
+pie_
