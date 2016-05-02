@@ -36,6 +36,66 @@ df$rincian_indikator <- c('Pencari kerja yang belum ditempatkan diawal tahun',
 df <- select(df,-2)
 df$rincian_indikator <- as.factor(df$rincian_indikator)
 
+# subset data
+# tahun 2009
+df_2009 <- filter(df, df$tahun == '2009-01-01')
+df_2009$kategori <- c(NA)
+df_2009$persen <- c(NA)
+df_2009$kategori[1:4] <- 'Pencari'
+vec <- round((df_2009$jumlah / sum(filter(df_2009, df_2009$kategori == 'Pencari')$jumlah)) * 100, 2)
+df_2009$persen[1:4] <- vec[1:4]
+df_2009$kategori[5:9] <- 'Lowongan'
+vec <- round((df_2009$jumlah / sum(filter(df_2009, df_2009$kategori == 'Lowongan')$jumlah)) * 100, 2)
+df_2009$persen[5:9] <- vec[5:9]
+
+# tahun 2010
+df_2010 <- filter(df, df$tahun == '2010-01-01')
+df_2010$kategori <- c(NA)
+df_2010$persen <- c(NA)
+df_2010$kategori[1:4] <- 'Pencari'
+vec <- round((df_2010$jumlah / sum(filter(df_2010, df_2010$kategori == 'Pencari')$jumlah)) * 100, 2)
+df_2010$persen[1:4] <- vec[1:4]
+df_2010$kategori[5:9] <- 'Lowongan'
+vec <- round((df_2010$jumlah / sum(filter(df_2010, df_2010$kategori == 'Lowongan')$jumlah)) * 100, 2)
+df_2010$persen[5:9] <- vec[5:9]
+
+# tahun 2011
+df_2011 <- filter(df, df$tahun == '2011-01-01')
+df_2011$kategori <- c(NA)
+df_2011$persen <- c(NA)
+df_2011$kategori[1:4] <- 'Pencari'
+vec <- round((df_2011$jumlah / sum(filter(df_2011, df_2011$kategori == 'Pencari')$jumlah)) * 100, 2)
+df_2011$persen[1:4] <- vec[1:4]
+df_2011$kategori[5:9] <- 'Lowongan'
+vec <- round((df_2011$jumlah / sum(filter(df_2011, df_2011$kategori == 'Lowongan')$jumlah)) * 100, 2)
+df_2011$persen[5:9] <- vec[5:9]
+
+# tahun 2012
+df_2012 <- filter(df, df$tahun == '2012-01-01')
+df_2012$kategori <- c(NA)
+df_2012$persen <- c(NA)
+df_2012$kategori[1:4] <- 'Pencari'
+vec <- round((df_2012$jumlah / sum(filter(df_2012, df_2012$kategori == 'Pencari')$jumlah)) * 100, 2)
+df_2012$persen[1:4] <- vec[1:4]
+df_2012$kategori[5:9] <- 'Lowongan'
+vec <- round((df_2012$jumlah / sum(filter(df_2012, df_2012$kategori == 'Lowongan')$jumlah)) * 100, 2)
+df_2012$persen[5:9] <- vec[5:9]
+
+# tahun 2013
+df_2013 <- filter(df, df$tahun == '2013-01-01')
+df_2013$kategori <- c(NA)
+df_2013$persen <- c(NA)
+df_2013$kategori[1:4] <- 'Pencari'
+vec <- round((df_2013$jumlah / sum(filter(df_2013, df_2013$kategori == 'Pencari')$jumlah)) * 100, 2)
+df_2013$persen[1:4] <- vec[1:4]
+df_2013$kategori[5:9] <- 'Lowongan'
+vec <- round((df_2013$jumlah / sum(filter(df_2013, df_2013$kategori == 'Lowongan')$jumlah)) * 100, 2)
+df_2013$persen[5:9] <- vec[5:9]
+
+## bind data
+df_bind <- rbind(df_2009, df_2010, df_2011, df_2012, df_2013)
+df_bind$tahun <- as.character(format(df_bind$tahun, "%Y"))
+
 # ggplot2 plot graph
 plot_ <- ggplot(df, aes(x=tahun,y=jumlah/1000)) +
   geom_point(aes(col=rincian_indikator),
@@ -62,3 +122,15 @@ line_ <- ggplot(df, aes(x=tahun, y=jumlah/1000)) +
   theme(plot.title=element_text(face="bold", size=15)) +
   guides(size=FALSE)
 line_
+
+# pie chart
+pie_ <- ggplot(df_bind, aes(x='',y=persen,fill=rincian_indikator)) +
+  geom_bar(width=10,stat='identity') +
+  coord_polar('y', start=0) +
+  ggtitle("Persentasi Ikhtisar Statistik DKI Jakarta Tahun 2009-2013") +
+  theme(plot.title=element_text(face='bold',size=13)) +
+  labs(x='Persen (%)',
+       y='Persen (%)') +
+  guides(fill=guide_legend(title='Rincian Indikator')) +
+  facet_grid(kategori ~ tahun)
+pie_
