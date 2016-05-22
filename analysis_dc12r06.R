@@ -66,3 +66,13 @@ pie_ <- ggplot(df.tab, aes(x='',y=Persen,fill=Komponen)) +
   scale_x_discrete('') +
   xlab('Komponen (%)')
 pie_
+
+bar_ <- ggplot(df.tab, aes(x=Komponen,y=Persen,fill=Komponen)) +
+  geom_bar(stat='identity') +
+  ggtitle("Persentasi Komponen Inflasi\nBulan Januari-Juni 2012 DKI Jakarta") +
+  theme(plot.title=element_text(face='bold',size=13),
+        axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  xlab('Komponen (%)')
+bar_

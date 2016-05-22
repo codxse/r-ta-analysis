@@ -67,14 +67,14 @@ data_vlines <- data.frame(Wilayah=levels(df$Wilayah),
                                  mean(filter(df, Wilayah == 'Jakarta Timur')$Harga),
                                  mean(filter(df, Wilayah == 'Jakarta Utara')$Harga)))
 
-h <- 3.5*sd(df$Harga)*length(df$Harga)^(-1/3)
+h <- round(3.5*sd(df$Harga)*length(df$Harga)^(-1/3))
 dist_ <- ggplot(df, aes(x=Harga)) +
   geom_histogram(binwidth=h,
                  color='black',
                  fill='white') +
   ggtitle('Distribusi Harga Pangan Tingkat Konsumen DKI Jakarta Tahun 2015') +
   theme(plot.title=element_text(face='bold', size=15)) +
-  labs(x='Harga per Kg/Liter (Rp.)',
+  labs(x='Harga per Satuan (Rp.)',
        y='Frekuensi') +
   geom_vline(data=data_vlines,
              aes(xintercept=Harga),
@@ -84,13 +84,15 @@ dist_ <- ggplot(df, aes(x=Harga)) +
   facet_grid(. ~ Wilayah)
 dist_
 
+# primitive
+break_point <- c(0,17753,35506,53259,71012,88765,106518,124271,142024)
 distAll_ <- ggplot(df, aes(x=Harga)) +
-  geom_histogram(binwidth = h,
+  geom_histogram(breaks = break_point,
                  color='black',
                  fill='white') +
   ggtitle('Distribusi Harga Pangan DKI Jakarta\nTingkat Konsumen Tahun 2015') +
   theme(plot.title=element_text(face='bold', size=15)) +
-  labs(x='Harga per Kg/Liter (Rp.)',
+  labs(x='Harga per Satuan (Rp.)',
        y='Frekuensi') +
   geom_vline(data=data_vlines,
              xintercept=mean(df$Harga),
@@ -108,8 +110,11 @@ line_ <- ggplot(df, aes(x=Tanggal, y=Harga/1000)) +
              fill='white') +
   labs(color='Keterangan',
        x='Bulan',
-       y='Harga per Kg/Liter (Ribu Rp.)') +
+       y='Harga per Satuan (Ribu Rp.)') +
   ggtitle('Harga Pangan Tingkat Konsumen DKI Jakarta Tahun 2015') +
   theme(plot.title=element_text(face="bold", size=15)) +
   facet_grid(. ~ Wilayah)
 line_
+
+# write data
+# write.csv(df, "df.csv", row.names=FALSE, na="")
