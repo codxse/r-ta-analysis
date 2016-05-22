@@ -106,9 +106,12 @@ data_vlines <- data.frame(Bulan=levels(df_no_na$Bulan),
                                   mean(filter(df_no_na, df_no_na$Bulan == '10')$Harga),
                                   mean(filter(df_no_na, df_no_na$Bulan == '11')$Harga)))
 
-h <- 3.5*sd(df_no_na$Harga)*length(df_no_na$Harga)^(-1/3)
+h <- round(3.5*sd(df_no_na$Harga)*length(df_no_na$Harga)^(-1/3))
+break_point <- c(0,2825,5650,8475,11301,14126,16951,19776,22602,
+                 25427,28252,31078,33903,36728,39553,42379,45204,
+                 48029,50855,53680,56505,59330)
 distAll_ <- ggplot(df_no_na, aes(x=Harga)) +
-  geom_histogram(binwidth=h,
+  geom_histogram(breaks = break_point,
                  color='black',
                  fill='white') +
   ggtitle('Distribusi Harga Grosir Di Pasar Induk Beras Cipinang\nDan Pasar Induk Kramat Jati Tahun 2015') +

@@ -67,7 +67,7 @@ data_vlines <- data.frame(Wilayah=levels(df$Wilayah),
                                  mean(filter(df, Wilayah == 'Jakarta Timur')$Harga),
                                  mean(filter(df, Wilayah == 'Jakarta Utara')$Harga)))
 
-h <- 3.5*sd(df$Harga)*length(df$Harga)^(-1/3)
+h <- round(3.5*sd(df$Harga)*length(df$Harga)^(-1/3))
 dist_ <- ggplot(df, aes(x=Harga)) +
   geom_histogram(binwidth=h,
                  color='black',

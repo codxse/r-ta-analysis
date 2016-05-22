@@ -8,6 +8,7 @@ getwd()
 setwd('~/Workspaces/r-ta-analysys')
 rm(list=ls())
 library(ggplot2)
+library(dplyr)
 
 # remove scientific numeric
 options(scipen=999)
@@ -87,7 +88,7 @@ mean2014 <- mean(subset(df.viz, df.viz$Tahun == 2014)$Nilai)
 data_vlines <- data.frame(Tahun=levels(df.viz$Tahun),
                           Nilai=c(mean2013,mean2014))
 
-h <- 3.5*sd(df.viz$Nilai)*length(df.viz$Nilai)^(-1/3)
+h <- round(3.5*sd(df.viz$Nilai)*length(df.viz$Nilai)^(-1/3))
 dist_ <- ggplot(df.viz, aes(x=Nilai)) +
   geom_histogram(binwidth=h,
                  color='black',
@@ -104,8 +105,9 @@ dist_ <- ggplot(df.viz, aes(x=Nilai)) +
   facet_grid(. ~ Tahun)
 dist_
 
+break_point <- c(0,289,579,869,1159,1449,1739)
 distAll_ <- ggplot(df.viz, aes(x=Nilai)) +
-  geom_histogram(binwidth=h,
+  geom_histogram(breaks=break_point,
                  color='black',
                  fill='white') +
   ggtitle('Distribusi Impor DKI Jakarta Menurut Golongan Barang') +

@@ -134,9 +134,9 @@ df$cluster <- as.factor(df_km$cluster)
 df_center <- df_km$centers
 df <- df %>%
   arrange(cluster)
-levels(df$cluster) <- c('Barang Mentah',
-                         'Barang Setengan Jadi',
-                         'Barang Jadi')
+levels(df$cluster) <- c('cluster k1',
+                        'cluster k2',
+                        'cluster k3')
   
 set.seed(100)
 plot_ <- ggplot(df, aes(x=volume,y=nilai)) +
