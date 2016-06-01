@@ -5731,7 +5731,7 @@ nv.models.legend = function() {
         , height = 20
         , getKey = function(d) { return d.key }
         , color = nv.utils.getColor()
-        , maxKeyLength = 20 //default value for key lengths
+        , maxKeyLength = 200 //default value for key lengths
         , align = true
         , padding = 32 //define how much space between legend items. - recommend 32 for furious version
         , rightAlign = true
@@ -6514,7 +6514,7 @@ nv.models.lineChart = function() {
 
                 if (legendPosition === 'bottom') {
                     wrap.select('.nv-legendWrap')
-                        .attr('transform', 'translate(0,' + (availableHeight1) +')');
+                        .attr('transform', 'translate(0,' + (availableHeight1 + 45) +')');
                 } else if (legendPosition === 'top') {
                     if ( margin.top != legend.height()) {
                         margin.top = legend.height();
