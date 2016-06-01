@@ -1,5 +1,5 @@
 body {
-	width: 320px;
+	
 }
 
 /*.nvd {
@@ -13,3 +13,7 @@ body {
    	-webkit-transform: translate(-55px,320px) !important;
     transform: translate(-55px,320px) !important;
 }*/
+
+g.nv-series {
+	font-size: 20px !important;
+}

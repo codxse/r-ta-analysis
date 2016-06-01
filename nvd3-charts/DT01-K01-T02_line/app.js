@@ -131,14 +131,14 @@ var data2 = generateData();
   $scope.options = {
     chart: {
       type: 'lineChart',
-      height: 500,
+      height: 600,
       margin : {
         top: 30,
         right: 20,
-        bottom: 40,
+        bottom: 300,
         left: 55
       },
-      legendPosition: "top",
+      legendPosition: "bottom",
       x: function(d) {
         return new Date(d.x);
       },
