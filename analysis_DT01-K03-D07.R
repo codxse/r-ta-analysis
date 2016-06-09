@@ -1,5 +1,5 @@
-## dc22_data_ekspor_impor
-## R11_KEUANGAN_ekspor_2011.csv
+## K03_ekspor_impor
+## D07_EKO_EKSPOR_IMPOR_volume_dan_nilai_ekspor.csv
 
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
@@ -13,7 +13,7 @@ if (!exists("multiplot", mode="function")) source("multiplot.R")
 options(scipen=999)
 
 # buka csv
-fpath = file.path('rawdata/dc22_data_ekspor_impor/R11_KEUANGAN_ekspor_2011.csv')
+fpath = file.path('rawdata/DT01_eko/K03_ekspor_impor/D07_EKO_EKSPOR_IMPOR_volume_dan_nilai_ekspor.csv')
 df <- read.csv(fpath,stringsAsFactors = FALSE)
 
 ## Clean Data
@@ -39,6 +39,7 @@ dummy$komoditas <- as.numeric(df$jenis_komoditas)*1000
 # scree_ <- plot(ratio_ss, type='b',xlab='k')
 # scree_
 
+df_temp <- df
 ## Itrasi 1
 km_1 <- kmeans(dummy, 3, 1)
 df_temp$c1 <- as.factor(km_1$cluster)
@@ -173,6 +174,7 @@ cluster_
 ## Data Visualization
 df.viz <- df
 df.viz$hs <- NULL
+df.viz$Grup <- km_4$cluster
 names(df.viz) <- c('Tahun','Komoditas',
                    'Volume','Nilai',
                    'Grup')
@@ -181,7 +183,7 @@ df.viz$Grup <- as.factor(df.viz$Grup)
 df.tidy <- gather(df.viz, key, Total, -c(1,2,5))
 
 df.tidy <- df.tidy %>%
-  arrange()
+  arrange(Grup)
 
 bar_ <- ggplot(df.tidy, aes(x=format(Tahun,'%Y'))) +
   geom_bar(position='fill',
@@ -191,7 +193,7 @@ bar_ <- ggplot(df.tidy, aes(x=format(Tahun,'%Y'))) +
   scale_y_continuous(labels=scales::percent) +
   labs(x='Tahun',
        y='Total (%)') +
-  ggtitle("Volume Ekspor Melalui DKI Jakarta\nTahun 2011-2012") +
+  ggtitle("Volume Ekspor Melalui DKI Jakarta") +
   theme(plot.title=element_text(face='bold',size=15)) +
   facet_grid(. ~ key)
 bar_

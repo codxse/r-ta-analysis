@@ -1,5 +1,5 @@
 ## Topik Keuangan Daerah
-## T14_KED_GDP_pendapatan_perkapita_jakarta_nasional.csv
+## D13_KED_GDP_pendapatan_perkapita_jakarta_nasional.csv
 
 # Goal: Memprediksi
 #   Perkapita nasional vs % Perkapita jakarta
@@ -13,7 +13,7 @@ library(ggplot2)
 library(tidyr)
 
 # buka csv
-fpath = file.path('rawdata/DT02_ked/K02_gdp/T14_KED_GDP_pendapatan_perkapita_jakarta_nasional.csv')
+fpath = file.path('rawdata/DT02_ked/K02_gdp/D13_KED_GDP_pendapatan_perkapita_jakarta_nasional.csv')
 df <- read.csv(fpath,stringsAsFactors = FALSE) %>%
   arrange(tahun)
 

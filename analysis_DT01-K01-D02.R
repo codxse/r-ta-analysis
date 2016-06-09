@@ -1,5 +1,5 @@
 ## Topik ekonomi
-## T03_EKO_KETENAGA_KERJAAN_upah_minimum_provinsi_dan_inflasi_di_dki_jakarta.csv
+## D02_EKO_KETENAGA_KERJAAN_upah_minimum_provinsi_dan_inflasi_di_dki_jakarta.csv
 
 # Goal: Memprediksi
 #   UMR dari variabel kenaikan_ump tahun sebelumnya dan
@@ -17,7 +17,7 @@ if (!exists("multiplot", mode="function")) source("multiplot.R")
 options(scipen=999)
 
 # buka csv
-fpath = file.path('rawdata/DT01_eko/K01_ketenaga_kerjaan/T03_EKO_KETENAGA_KERJAAN_upah_minimum_provinsi_dan_inflasi_di_dki_jakarta.csv')
+fpath = file.path('rawdata/DT01_eko/K01_ketenaga_kerjaan/D02_EKO_KETENAGA_KERJAAN_upah_minimum_provinsi_dan_inflasi_di_dki_jakarta.csv')
 df <- read.csv(fpath,stringsAsFactors = FALSE) %>%
       arrange(tahun)
 

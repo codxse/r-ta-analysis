@@ -1,5 +1,5 @@
 ## Topik Ekonomi
-## /T09_EKO_EKSPOR_IMPOR_nilai_impor_produk_menurut_golongan/*
+## /D08_EKO_EKSPOR_IMPOR_nilai_impor_produk_menurut_golongan/*
 
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
@@ -11,7 +11,7 @@ library(dplyr)
 options(scipen=999)
 
 ## clean csv
-df1 <- read.csv(file.path('rawdata/DT01_eko/K03_ekspor_impor/T09_EKO_EKSPOR_IMPOR_nilai_impor_produk_menurut_golongan/T09_impor_hs_2_mei_2014.csv'),
+df1 <- read.csv(file.path('rawdata/DT01_eko/K03_ekspor_impor/D08_EKO_EKSPOR_IMPOR_nilai_impor_produk_menurut_golongan/D08_impor_hs_2_mei_2014.csv'),
                 stringsAsFactors = FALSE)
 df1$nilai_fob <- as.numeric(df1$nilai_fob)
 df1$bulan <- as.factor(df1$bulan)
@@ -21,7 +21,7 @@ df1 <- df1 %>% arrange(bulan)
 df1$tahun <- NULL
 df1$satuan <- NULL
 
-df2 <- read.csv(file.path('rawdata/DT01_eko/K03_ekspor_impor/T09_EKO_EKSPOR_IMPOR_nilai_impor_produk_menurut_golongan/T09_impor_hs_2_juli_2014.csv'),
+df2 <- read.csv(file.path('rawdata/DT01_eko/K03_ekspor_impor/D08_EKO_EKSPOR_IMPOR_nilai_impor_produk_menurut_golongan/D08_impor_hs_2_juli_2014.csv'),
                 stringsAsFactors = FALSE)
 df2$nilai_fob <- as.numeric(df2$nilai_fob)
 df2$bulan <- as.factor(df2$bulan)
@@ -31,7 +31,7 @@ df2 <- df2 %>% arrange(bulan)
 df2$tahun <- NULL
 df2$satuan <- NULL
 
-df3 <- read.csv(file.path('rawdata/DT01_eko/K03_ekspor_impor/T09_EKO_EKSPOR_IMPOR_nilai_impor_produk_menurut_golongan/T09_impor_hs_2_september_2014.csv'),
+df3 <- read.csv(file.path('rawdata/DT01_eko/K03_ekspor_impor/D08_EKO_EKSPOR_IMPOR_nilai_impor_produk_menurut_golongan/D08_impor_hs_2_september_2014.csv'),
                 stringsAsFactors = FALSE)
 df3$nilai_fob <- as.numeric(df3$nilai_fob)
 df3$bulan <- as.factor(df3$bulan)
@@ -41,7 +41,7 @@ df3 <- df3 %>% arrange(bulan)
 df3$tahun <- NULL
 df3$satuan <- NULL
 
-df4 <- read.csv(file.path('rawdata/DT01_eko/K03_ekspor_impor/T09_EKO_EKSPOR_IMPOR_nilai_impor_produk_menurut_golongan/T09_impor_hs_2_oktober_2014.csv'),
+df4 <- read.csv(file.path('rawdata/DT01_eko/K03_ekspor_impor/D08_EKO_EKSPOR_IMPOR_nilai_impor_produk_menurut_golongan/D08_impor_hs_2_oktober_2014.csv'),
                 stringsAsFactors = FALSE)
 df4$nilai_fob <- as.numeric(df4$nilai_fob)
 df4$bulan <- as.factor(df4$bulan)

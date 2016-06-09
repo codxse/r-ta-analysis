@@ -1,5 +1,5 @@
 ## Topik Ekonomi
-## T04_EKO_PEREKONOMIAN_laju_pertumbuhan_ekonomi_jakarta_nasional.csv
+## D03_EKO_PEREKONOMIAN_laju_pertumbuhan_ekonomi_jakarta_nasional.csv
 
 # Goal: Memprediksi
 #   % ekonomi nasional vs % ekonomi jakarta
@@ -16,7 +16,7 @@ library(tidyr)
 options(scipen=999)
 
 # buka csv
-fpath = file.path('rawdata/DT01_eko/K02_perekonomian/T04_EKO_PEREKONOMIAN_laju_pertumbuhan_ekonomi_jakarta_nasional.csv')
+fpath = file.path('rawdata/DT01_eko/K02_perekonomian/D03_EKO_PEREKONOMIAN_laju_pertumbuhan_ekonomi_jakarta_nasional.csv')
 df <- read.csv(fpath,stringsAsFactors = FALSE) %>%
   arrange(tahun)
 
