@@ -1,5 +1,5 @@
 ## Topik Ekonomi
-## T07_EKO_EKSPOR_IMPOR_ekspor_impor_jakarta.csv
+## D06_EKO_EKSPOR_IMPOR_ekspor_impor_jakarta.csv
 
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
@@ -11,7 +11,7 @@ library(ggplot2)
 options(scipen=999)
 
 # buka csv
-fpath = file.path('rawdata/DT01_eko/K03_ekspor_impor/T07_EKO_EKSPOR_IMPOR_ekspor_impor_jakarta.csv')
+fpath = file.path('rawdata/DT01_eko/K03_ekspor_impor/D06_EKO_EKSPOR_IMPOR_ekspor_impor_jakarta.csv')
 df <- read.csv(fpath,stringsAsFactors = FALSE)
 
 ## Tidy data

@@ -1,5 +1,5 @@
-## dc12_data_ekonomi
-## R04_PEREKONOMIAN_inflasi_jakarta_nasional_2006_2012.csv
+## K02_perekonomian
+## D04_EKO_PEREKONOMIAN_inflasi_jakarta_nasional.csv
 
 # Goal: Memprediksi
 #   % inflasi nasional vs % inflasi jakarta
@@ -16,7 +16,7 @@ library(tidyr)
 options(scipen=999)
 
 # buka csv
-fpath = file.path('rawdata/dc12_data_ekonomi/R04_PEREKONOMIAN_inflasi_jakarta_nasional_2006_2012.csv')
+fpath = file.path('rawdata/DT01_eko/K02_perekonomian/D04_EKO_PEREKONOMIAN_inflasi_jakarta_nasional.csv')
 df <- read.csv(fpath,stringsAsFactors = FALSE) %>%
   arrange(tahun)
 

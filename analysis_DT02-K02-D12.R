@@ -1,5 +1,5 @@
-## dc21_data_keuangan_daerah
-## R10_KEUANGAN_realisasi_belanja_2015.csv
+## K01_anggaran_realisasi
+## D12_KED_ANGGARAN_REALISASI_realisasi_belanja_2015.csv
 
 # Goal: Clustering
 #   Bagi tiga cluster berdasarkan realisasi pengeluaran
@@ -13,7 +13,7 @@ if (!exists("multiplot", mode="function")) source("multiplot.R")
 options(digits=14)
 
 # buka csv
-fpath = file.path('rawdata/dc21_data_keuangan_daerah/R10_KEUANGAN_realisasi_belanja_2015.csv')
+fpath = file.path('rawdata/DT02_ked/K01_anggaran_realisasi/D12_KED_ANGGARAN_REALISASI_realisasi_belanja_2015.csv')
 df <- read.csv(fpath,stringsAsFactors = TRUE, na.strings = c('','NA'))
 
 ## Clean Data

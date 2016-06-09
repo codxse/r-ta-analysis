@@ -1,5 +1,5 @@
 ## Topik Ekonomi
-## T06_EKO_PEREKONOMIAN_komponen_inflasi_jakarta.csv
+## D05_EKO_PEREKONOMIAN_komponen_inflasi_jakarta.csv
 
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
@@ -8,7 +8,7 @@ library(tidyr)
 library(ggplot2)
 
 # buka csv
-fpath = file.path('rawdata/DT01_eko/K02_perekonomian/T06_EKO_PEREKONOMIAN_komponen_inflasi_jakarta.csv')
+fpath = file.path('rawdata/DT01_eko/K02_perekonomian/D05_EKO_PEREKONOMIAN_komponen_inflasi_jakarta.csv')
 df <- read.csv(fpath,stringsAsFactors = FALSE)
 
 df$persen_inflasi[is.na(df$persen_inflasi)] <- 0

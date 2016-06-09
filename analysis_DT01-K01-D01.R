@@ -1,5 +1,5 @@
 ## Topik Ekonomi
-## T02_EKO_KETENAGA_KERJAAN_ikhtisar_statistik_antar_kerja.csv
+## D01_EKO_KETENAGA_KERJAAN_ikhtisar_statistik_antar_kerja.csv
 
 # Buat tabel pada dc1_data_ketenaga_kerjaan menjadi lebih rapih
 # Kolom yang ada menjadi:
@@ -17,7 +17,7 @@ library(ggplot2)
 options(scipen=999)
 
 # buka csv
-fpath = file.path('rawdata/DT01_eko/K01_ketenaga_kerjaan/T02_EKO_KETENAGA_KERJAAN_ikhtisar_statistik_antar_kerja.csv')
+fpath = file.path('rawdata/DT01_eko/K01_ketenaga_kerjaan/D01_EKO_KETENAGA_KERJAAN_ikhtisar_statistik_antar_kerja.csv')
 df <- read.csv(fpath,stringsAsFactors = FALSE) %>%
       arrange(tahun)
 df$tahun <- as.Date(paste0(df$tahun,'/01/01'))

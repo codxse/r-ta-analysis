@@ -1,5 +1,5 @@
-## dc12_data_ekonomi
-## R08_PEREKONOMIAN_struktur_ekonomi_jakarta_berdasarkan_sektor_2006_2012.csv
+## K02_perekonomian
+## D09_EKO_PEREKONOMIAN_struktur_ekonomi_jakarta_berdasarkan_sektor.csv
 
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
@@ -12,7 +12,7 @@ library(dplyr)
 options(scipen=999)
 
 # buka csv
-fpath = file.path('rawdata/dc12_data_ekonomi/R08_PEREKONOMIAN_struktur_ekonomi_jakarta_berdasarkan_sektor_2006_2012.csv')
+fpath = file.path('rawdata/DT01_eko/K02_perekonomian/D09_EKO_PEREKONOMIAN_struktur_ekonomi_jakarta_berdasarkan_sektor.csv')
 df <- read.csv(fpath,stringsAsFactors = FALSE)
 df$tahun <- as.Date(paste0(df$tahun,'/01/01'))
 df$jenis_sektor <- factor(df$jenis_sektor,

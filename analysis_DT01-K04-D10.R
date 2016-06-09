@@ -1,5 +1,5 @@
 ## Topik Ekonomi
-## /T11_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/*
+## /D10_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/*
 
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
@@ -11,31 +11,31 @@ library(dplyr)
 options(scipen=999)
 
 # load data.frame
-df3 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/T11_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/T11_harga_pangan_tingkat_konsumen_maret_2015.csv'),
+df3 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/D10_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/D10_harga_pangan_tingkat_konsumen_maret_2015.csv'),
                 stringsAsFactors = FALSE)
 df3$Bulan <- as.Date('2015/3/1')
   
-df4 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/T11_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/T11_harga_pangan_tingkat_konsumen_april_2015.csv'),
+df4 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/D10_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/D10_harga_pangan_tingkat_konsumen_april_2015.csv'),
                 stringsAsFactors = FALSE)
 df4$Bulan <- as.Date('2015/4/1')
 
-df5 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/T11_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/T11_harga_pangan_tingkat_konsumen_mei_2015.csv'),
+df5 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/D10_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/D10_harga_pangan_tingkat_konsumen_mei_2015.csv'),
                 stringsAsFactors = FALSE)
 df5$Bulan <- as.Date('2015/5/1')
 
-df6 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/T11_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/T11_harga_pangan_tingkat_konsumen_juni_2015.csv'),
+df6 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/D10_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/D10_harga_pangan_tingkat_konsumen_juni_2015.csv'),
                 stringsAsFactors = FALSE)
 df6$Bulan <- as.Date('2015/6/1')
 
-df7 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/T11_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/T11_harga_pangan_tingkat_konsumen_juli_2015.csv'),
+df7 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/D10_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/D10_harga_pangan_tingkat_konsumen_juli_2015.csv'),
                 stringsAsFactors = FALSE)
 df7$Bulan <- as.Date('2015/7/1')
 
-df8 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/T11_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/T11_harga_pangan_tingkat_konsumen_agustus_2015.csv'),
+df8 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/D10_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/D10_harga_pangan_tingkat_konsumen_agustus_2015.csv'),
                 stringsAsFactors = FALSE)
 df8$Bulan <- as.Date('2015/8/1')
 
-df9 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/T11_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/T11_harga_pangan_tingkat_konsumen_september_2015.csv'),
+df9 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/D10_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/D10_harga_pangan_tingkat_konsumen_september_2015.csv'),
                 stringsAsFactors = FALSE)
 df9$Bulan <- as.Date('2015/9/1')
 
