@@ -134,3 +134,29 @@ pie_ <- ggplot(df_bind, aes(x='',y=persen,fill=rincian_indikator)) +
   guides(fill=guide_legend(title='Rincian Indikator')) +
   facet_grid(kategori ~ tahun)
 pie_
+
+# pie chart lowongan
+df_lowongan <- filter(df_bind, kategori == 'Lowongan')
+df_pencari <- filter(df_bind, kategori == 'Pencari')
+
+pieLowongan_ <- ggplot(df_lowongan, aes(x='',y=persen,fill=rincian_indikator)) +
+  geom_bar(width=10,stat='identity') +
+  coord_polar('y', start=0) +
+  ggtitle("Persentasi Ikhtisar Statistik Lowongan Kerja DKI Jakarta") +
+  theme(plot.title=element_text(face='bold',size=13)) +
+  labs(x='Persen (%)',
+       y='Persen (%)') +
+  guides(fill=guide_legend(title='Rincian Indikator')) +
+  facet_grid(. ~ tahun)
+pieLowongan_
+
+piePencari_ <- ggplot(df_pencari, aes(x='',y=persen,fill=rincian_indikator)) +
+  geom_bar(width=10,stat='identity') +
+  coord_polar('y', start=0) +
+  ggtitle("Persentasi Ikhtisar Statistik Pencari Kerja DKI Jakarta") +
+  theme(plot.title=element_text(face='bold',size=13)) +
+  labs(x='Persen (%)',
+       y='Persen (%)') +
+  guides(fill=guide_legend(title='Rincian Indikator')) +
+  facet_grid(. ~ tahun)
+piePencari_
