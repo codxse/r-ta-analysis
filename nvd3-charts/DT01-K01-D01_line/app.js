@@ -4,7 +4,7 @@ app.controller('line-tbl1', function($scope) {
   $scope.options = {
     chart: {
       type: 'lineWithFocusChart',
-      height: 450,
+      height: 500,
       margin : {
         top: 20,
         right: 20,
