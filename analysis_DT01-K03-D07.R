@@ -25,7 +25,7 @@ df$nilai <- as.double(df$nilai)
 df$tahun <- as.Date(paste0(df$tahun,'/01/01'))
 df$jenis_komoditas <- as.factor(df$jenis_komoditas)
 
-set.seed(5)
+set.seed(100)
 ## k-Means Scree Diagram
 max_k <- 15
 ratio_ss <- c(rep(0,max_k))
@@ -41,6 +41,9 @@ dummy$komoditas <- as.numeric(df$jenis_komoditas)*1000
 # scree_
 
 df_temp <- df
+df_temp2 <- df
+df_temp3 <- df
+df_temp4 <- df
 ## Itrasi 1
 km_1 <- kmeans(dummy, 3, 1)
 df_temp$c1 <- as.factor(km_1$cluster)
@@ -49,7 +52,6 @@ plotC1_ <- ggplot(df_temp, aes(x=volume, y=nilai)) +
   geom_point(aes(col=c1),
              alpha=.5,
              position=position_jitter(width=10,height=1)) +
-  scale_color_manual(values=c('#0174DF','green4','red')) +
   geom_point(data=data.frame(km_1$centers),
              aes(x=volume, y=nilai),
              pch=17,
@@ -58,19 +60,17 @@ plotC1_ <- ggplot(df_temp, aes(x=volume, y=nilai)) +
   labs(x='Volume (Ton)',
        y='Juta USD') +
   ggtitle('Iterasi Pertama') +
-  guides(alpha=FALSE,
-         color=FALSE)
+  guides(alpha=FALSE)
 plotC1_
 
 ## Itrasi 2
 km_2 <- kmeans(dummy, 3, 2)
-df_temp$c2 <- as.factor(km_2$cluster)
+df_temp2$c2 <- as.factor(km_2$cluster)
 
-plotC2_ <- ggplot(df_temp, aes(x=volume, y=nilai)) +
+plotC2_ <- ggplot(df_temp2, aes(x=volume, y=nilai)) +
   geom_point(aes(col=c2),
              alpha=.5,
              position=position_jitter(width=10,height=1)) +
-  scale_color_manual(values=c('green4','#0174DF','red')) +
   geom_point(data=data.frame(km_2$centers),
              aes(x=volume, y=nilai),
              pch=17,
@@ -78,46 +78,41 @@ plotC2_ <- ggplot(df_temp, aes(x=volume, y=nilai)) +
   labs(x='Volume (Ton)',
        y='Juta USD') +
   ggtitle('Iterasi Kedua') +
-  guides(alpha=FALSE,
-         color=FALSE)
+  guides(alpha=FALSE)
 plotC2_
 
 ## Iterasi 3
 km_3 <- kmeans(dummy, 3, 3)
-df_temp$c3 <- as.factor(km_3$cluster)
+df_temp3$c3 <- as.factor(km_3$cluster)
 
-plotC3_ <- ggplot(df_temp, aes(x=volume, y=nilai)) +
+plotC3_ <- ggplot(df_temp3, aes(x=volume, y=nilai)) +
   geom_point(aes(col=c3),
              alpha=.5,
              position=position_jitter(width=10,height=1)) +
-  scale_color_manual(values=c('#0174DF','green4','red')) +
   geom_point(data=data.frame(km_3$centers),
              aes(x=volume, y=nilai),
              size=3,
              pch=17) +
   labs(x='Volume (Ton)',
        y='Juta USD') +
-  guides(alpha=FALSE,
-         color=FALSE)
+  guides(alpha=FALSE)
 plotC3_
 
 ## Iterasi 4
 km_4 <- kmeans(dummy, 3, 5)
-df_temp$c4 <- as.factor(km_4$cluster)
+df_temp4$c4 <- as.factor(km_4$cluster)
 
-plotC4_ <- ggplot(df_temp, aes(x=volume, y=nilai)) +
+plotC4_ <- ggplot(df_temp4, aes(x=volume, y=nilai)) +
   geom_point(aes(col=c4),
              alpha=.5,
              position=position_jitter(width=10,height=1)) +
-  scale_color_manual(values=c('green4','red','#0174DF')) +
   geom_point(data=data.frame(km_4$centers),
              aes(x=volume, y=nilai),
              size=3,
              pch=17) +
   labs(x='Volume (Ton)',
        y='Juta USD') +
-  guides(alpha=FALSE,
-         color=FALSE)
+  guides(alpha=FALSE)
 plotC4_
 
 ## Run this again from this point
@@ -140,7 +135,6 @@ levels(df$cluster) <- c('cluster k1',
                         'cluster k2',
                         'cluster k3')
   
-set.seed(100)
 plot_ <- ggplot(df, aes(x=volume,y=nilai)) +
   geom_point(alpha=.5,
              position=position_jitter(width=10,height=1)) +
@@ -148,7 +142,6 @@ plot_ <- ggplot(df, aes(x=volume,y=nilai)) +
        y='Juta USD') 
 plot_
 
-set.seed(100)
 plotCol_ <- ggplot(df, aes(x=volume, y=nilai)) +
   geom_point(aes(color=cluster),
              alpha=.5,
@@ -159,7 +152,6 @@ plotCol_ <- ggplot(df, aes(x=volume, y=nilai)) +
          color=FALSE)
 plotCol_
 
-set.seed(100)
 cluster_ <- ggplot(df, aes(x=volume, y=nilai)) +
   geom_point(aes(color=cluster),
              alpha=.5,
@@ -199,6 +191,23 @@ bar_ <- ggplot(df.tidy, aes(x=format(Tahun,'%Y'))) +
   facet_grid(. ~ key)
 bar_
 
+df.pie <- df.tidy
+df.pie$Tahun <- paste0(format(df.tidy$Tahun, '%Y'))
+pie_ <- ggplot(df.pie, aes(x='')) +
+  geom_bar(width=10,
+           position = 'fill',
+           stat='identity',
+           aes(fill=Grup,
+               y=Total)) +
+  coord_polar('y', start=0) +
+  ggtitle("Persentasi Volume Ekspor\nMelalui DKI Jakarta") +
+  theme(plot.title=element_text(face='bold',size=13)) +
+  labs(x='Persen (%)',
+       y='Persen (%)') +
+  guides(fill=guide_legend(title='Rincian Indikator')) +
+  facet_grid(key ~ Tahun)
+pie_
+
 ### Convert data frame to JSON
 df_json <- df.viz
 df_json$Tahun <- paste0(format(df.viz$Tahun, '%Y'))
@@ -207,4 +216,4 @@ sink("data.json")
 cat(toJSONarray(df_json))
 sink()
 
-file.show("data.json")
+#file.show("data.json")
