@@ -47,7 +47,17 @@ df_temp4 <- df
 ## Itrasi 1
 km_1 <- kmeans(dummy, 3, 1)
 df_temp$c1 <- as.factor(km_1$cluster)
+#############
+tempA <- filter(df_temp, df_temp$c1 == 1)
+tempB <- filter(df_temp, df_temp$c1 == 2)
+tempC <- filter(df_temp, df_temp$c1 == 3)
 
+tempA$c1 <- "2" 
+tempC$c1 <- "1"
+tempB$c1 <- "3"
+
+df_temp <- rbind(tempA, tempB, tempC)
+#############
 plotC1_ <- ggplot(df_temp, aes(x=volume, y=nilai)) +
   geom_point(aes(col=c1),
              alpha=.5,
@@ -60,13 +70,24 @@ plotC1_ <- ggplot(df_temp, aes(x=volume, y=nilai)) +
   labs(x='Volume (Ton)',
        y='Juta USD') +
   ggtitle('Iterasi Pertama') +
-  guides(alpha=FALSE)
+  guides(alpha=FALSE,
+         col=FALSE)
 plotC1_
 
 ## Itrasi 2
 km_2 <- kmeans(dummy, 3, 2)
 df_temp2$c2 <- as.factor(km_2$cluster)
+#############
+tempA2 <- filter(df_temp2, df_temp2$c2 == 1)
+tempB2 <- filter(df_temp2, df_temp2$c2 == 2)
+tempC2 <- filter(df_temp2, df_temp2$c2 == 3)
 
+tempA2$c2 <- "2" 
+tempB2$c2 <- "3"
+tempC2$c2 <- "1"
+
+df_temp2 <- rbind(tempA2, tempB2, tempC2)
+#############
 plotC2_ <- ggplot(df_temp2, aes(x=volume, y=nilai)) +
   geom_point(aes(col=c2),
              alpha=.5,
@@ -78,13 +99,24 @@ plotC2_ <- ggplot(df_temp2, aes(x=volume, y=nilai)) +
   labs(x='Volume (Ton)',
        y='Juta USD') +
   ggtitle('Iterasi Kedua') +
-  guides(alpha=FALSE)
+  guides(alpha=FALSE,
+         col=FALSE)
 plotC2_
 
 ## Iterasi 3
 km_3 <- kmeans(dummy, 3, 3)
 df_temp3$c3 <- as.factor(km_3$cluster)
+#############
+tempA3 <- filter(df_temp3, df_temp3$c3 == 1)
+tempB3 <- filter(df_temp3, df_temp3$c3 == 2)
+tempC3 <- filter(df_temp3, df_temp3$c3 == 3)
 
+tempA3$c3 <- "1" 
+tempB3$c3 <- "3"
+tempC3$c3 <- "2"
+
+df_temp3 <- rbind(tempA3, tempB3, tempC3)
+#############
 plotC3_ <- ggplot(df_temp3, aes(x=volume, y=nilai)) +
   geom_point(aes(col=c3),
              alpha=.5,
@@ -95,13 +127,24 @@ plotC3_ <- ggplot(df_temp3, aes(x=volume, y=nilai)) +
              pch=17) +
   labs(x='Volume (Ton)',
        y='Juta USD') +
-  guides(alpha=FALSE)
+  guides(alpha=FALSE,
+         col=FALSE)
 plotC3_
 
 ## Iterasi 4
 km_4 <- kmeans(dummy, 3, 5)
 df_temp4$c4 <- as.factor(km_4$cluster)
+#############
+tempA4 <- filter(df_temp4, df_temp4$c4 == 1)
+tempB4 <- filter(df_temp4, df_temp4$c4 == 2)
+tempC4 <- filter(df_temp4, df_temp4$c4 == 3)
 
+tempA4$c4 <- "3" 
+tempB4$c4 <- "1"
+tempC4$c4 <- "2"
+
+df_temp4 <- rbind(tempA4, tempB4, tempC4)
+#############
 plotC4_ <- ggplot(df_temp4, aes(x=volume, y=nilai)) +
   geom_point(aes(col=c4),
              alpha=.5,
@@ -112,7 +155,8 @@ plotC4_ <- ggplot(df_temp4, aes(x=volume, y=nilai)) +
              pch=17) +
   labs(x='Volume (Ton)',
        y='Juta USD') +
-  guides(alpha=FALSE)
+  guides(alpha=FALSE,
+         col=FALSE)
 plotC4_
 
 ## Run this again from this point
@@ -127,7 +171,7 @@ mult_ <- multiplot(plotC1_ + ggtitle('Iterasi Pertama') +
                    cols=2)
 mult_
 
-df$cluster <- as.factor(km_4$cluster)
+df$cluster <- as.factor(df_temp4$c4)
 df_center <- km_4$centers
 df <- df %>%
   arrange(cluster)
