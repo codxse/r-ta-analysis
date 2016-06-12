@@ -23,7 +23,7 @@ df <- read.csv(fpath,stringsAsFactors = FALSE) %>%
 title <- c('Tingkat Inflasi Jakarta dan Nasional')
 x <- c('Inflasi Jakarta (%)','Tahun')
 y <- c('Inflasi Nasional (%)')
-model_pred <- 'f(x) = 0.9889x - 0.3296'
+model_pred <- 'f(x) = 0.9889x + 0.3296'
 
 # Hapus Outlier
 # No Outlier

@@ -1,5 +1,6 @@
 sandbox.R
 sandbox.csv
+data.json
 
 # History files
 .Rhistory
