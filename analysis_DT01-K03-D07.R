@@ -7,7 +7,8 @@ rm(list=ls())
 library(dplyr)
 library(ggplot2)
 library(tidyr)
-if (!exists("multiplot", mode="function")) source("multiplot.R")
+source("libraries/multiplot.R")
+source("libraries/toJSONarray.R")
 
 # remove scientific numeric
 options(scipen=999)
@@ -102,14 +103,14 @@ plotC3_
 
 ## Iterasi 4
 km_4 <- kmeans(dummy, 3, 5)
-df_temp$c5 <- as.factor(km_5$cluster)
+df_temp$c4 <- as.factor(km_4$cluster)
 
 plotC4_ <- ggplot(df_temp, aes(x=volume, y=nilai)) +
   geom_point(aes(col=c4),
              alpha=.5,
              position=position_jitter(width=10,height=1)) +
   scale_color_manual(values=c('green4','red','#0174DF')) +
-  geom_point(data=data.frame(km_3$centers),
+  geom_point(data=data.frame(km_4$centers),
              aes(x=volume, y=nilai),
              size=3,
              pch=17) +
@@ -117,22 +118,22 @@ plotC4_ <- ggplot(df_temp, aes(x=volume, y=nilai)) +
        y='Juta USD') +
   guides(alpha=FALSE,
          color=FALSE)
-plotC5_
+plotC4_
 
-## ---------
+## Run this again from this point
 mult_ <- multiplot(plotC1_ + ggtitle('Iterasi Pertama') +
                      theme(plot.title=element_text(face='bold',size=15)),
                    plotC3_ + ggtitle('Iterasi Ketiga') +
                      theme(plot.title=element_text(face='bold',size=15)),
                    plotC2_ + ggtitle('Iterasi Kedua') +
                      theme(plot.title=element_text(face='bold',size=15)),
-                   plotC5_ + ggtitle('Iterasi Keempat') +
+                   plotC4_ + ggtitle('Iterasi Keempat') +
                      theme(plot.title=element_text(face='bold',size=15)),
                    cols=2)
-df_km <- km_4
+mult_
 
-df$cluster <- as.factor(df_km$cluster)
-df_center <- df_km$centers
+df$cluster <- as.factor(km_4$cluster)
+df_center <- km_4$centers
 df <- df %>%
   arrange(cluster)
 levels(df$cluster) <- c('cluster k1',
@@ -166,7 +167,7 @@ cluster_ <- ggplot(df, aes(x=volume, y=nilai)) +
   labs(color='Grup',
        x='Volume (Ton)',
        y='Juta USD') +
-  ggtitle("Plot Volume Dan Nilai Ekspor Melalui DKI Jakarta\nMenurut Jenis Komoditi Tahun 2011-2012") +
+  ggtitle("Plot Volume Dan Nilai Ekspor Melalui DKI Jakart\nMenurut Jenis Komoditi") +
   theme(plot.title=element_text(face='bold',size=15)) +
   guides(alpha=FALSE)
 cluster_
@@ -174,7 +175,7 @@ cluster_
 ## Data Visualization
 df.viz <- df
 df.viz$hs <- NULL
-df.viz$Grup <- km_4$cluster
+#df.viz$Grup <- km_4$cluster
 names(df.viz) <- c('Tahun','Komoditas',
                    'Volume','Nilai',
                    'Grup')
@@ -197,3 +198,13 @@ bar_ <- ggplot(df.tidy, aes(x=format(Tahun,'%Y'))) +
   theme(plot.title=element_text(face='bold',size=15)) +
   facet_grid(. ~ key)
 bar_
+
+### Convert data frame to JSON
+df_json <- df.viz
+df_json$Tahun <- paste0(format(df.viz$Tahun, '%Y'))
+  
+sink("data.json")
+cat(toJSONarray(df_json))
+sink()
+
+file.show("data.json")
