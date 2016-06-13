@@ -140,6 +140,6 @@ line_ <- ggplot(df.viz, aes(x=Tahun, y=value)) +
   labs(color='Keterangan',
        x='Tahun',
        y='Inflasi (%)') +
-  ggtitle('Laju Inflasi DKI Jakarta dan Nasional\nTahun 2006-2012') +
+  ggtitle('Laju Inflasi DKI Jakarta dan Nasional') +
   theme(plot.title=element_text(face="bold", size=15))
 line_
