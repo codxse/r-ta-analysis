@@ -1,0 +1,19 @@
+body {
+
+}
+
+/*.nvd {
+	-ms-transform: translate(40px,10px) !important;
+   	-webkit-transform: translate(40px,10px) !important;
+    transform: translate(40px,10px) !important;
+}
+
+.nv-legendWrap {
+	-ms-transform: translate(-55px,320px) !important;
+   	-webkit-transform: translate(-55px,320px) !important;
+    transform: translate(-55px,320px) !important;
+}*/
+
+g.nv-series {
+	font-size: 20px !important;
+}
