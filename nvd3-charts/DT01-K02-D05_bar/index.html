@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="ion-bar">
+
+<head>
+  <meta charset="utf-8" />
+  <title>DT01-K03-D05_bar</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../libs/nvd3/build/nv.d3.min.css"/>
+  <script src="../libs/angular/angular.min.js"></script>
+  <script src="../libs/d3/d3.min.js" charset="utf-8"></script>
+  <script src="../libs/nvd3/build/nv.d3.js"></script>
+  <script src="../libs/angular-nvd3/dist/angular-nvd3.min.js"></script>
+  <script src="app.js"></script>
+</head>
+
+<body>
+
+  <h1>Bar Komponen Inflasi Jakarta</h1>
+  <hr/>
+
+  <div ng-controller="bar-chart">
+    <nvd3 options="options" data="data"></nvd3>
+  </div>
+
+</body>
+
+</html>
