@@ -56,7 +56,7 @@ app.controller('line-focus', function($scope) {
   }
 
   function generateKomoditas() {
-    return namaKomoditas.map(function(data, i) {
+    return namaKomoditas.map(function(data) {
       return {
         key: data,
         values: generateVal(data)
