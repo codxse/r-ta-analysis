@@ -7,6 +7,7 @@ rm(list=ls())
 library(tidyr)
 library(ggplot2)
 library(dplyr)
+source("libraries/toJSONarray.R")
 
 # remove scientific numeric
 options(scipen=999)
@@ -54,3 +55,9 @@ pie1_ <- ggplot(df, aes(x='',y=persen_kontribusi,fill=jenis_sektor)) +
   guides(fill=guide_legend(title='Rincian Indikator')) +
   facet_grid(. ~ tahun)
 pie1_
+
+# Export to JSON
+df <- arrange(df, tahun)
+sink("data.json")
+cat(toJSONarray(df))
+sink()

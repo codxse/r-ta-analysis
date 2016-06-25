@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="ion-pie">
+
+<head>
+  <meta charset="utf-8" />
+  <title>DT01-K02-D09_sttr</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../libs/nvd3/build/nv.d3.min.css"/>
+  <script src="../libs/angular/angular.min.js"></script>
+  <script src="../libs/d3/d3.min.js" charset="utf-8"></script>
+  <script src="../libs/nvd3/build/nv.d3.js"></script>
+  <script src="../libs/angular-nvd3/dist/angular-nvd3.min.js"></script>
+  <script src="app.js"></script>
+</head>
+
+<body>
+
+  <h1>Struktur Ekonomi berdasarkan Sektor Jakarta</h1>
+  <hr />
+
+  <div ng-controller="struktur2006">
+    <div ng-repeat="i in [0,1,2,3,4,5,6]">
+      <h3>{{ i }}</h3>
+      <nvd3 options="options" data="data[i]"></nvd3>
+    </div>
+  </div>
+</body>
+
+</html>
