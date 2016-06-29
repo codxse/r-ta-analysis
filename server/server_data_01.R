@@ -48,3 +48,7 @@ cat("db.ikhtisars.insert(")
 cat(toJSONarray(df))
 cat(")")
 sink()
+
+sink('data.json')
+cat(toJSONarray(df))
+sink()

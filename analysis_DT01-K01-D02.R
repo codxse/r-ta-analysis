@@ -11,7 +11,7 @@ rm(list=ls())
 library(dplyr)
 library(ggplot2)
 library(tidyr)
-if (!exists("multiplot", mode="function")) source("multiplot.R")
+source("libraries/multiplot.R")
 
 # remove scientific numeric
 options(scipen=999)
