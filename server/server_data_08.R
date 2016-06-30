@@ -1,10 +1,6 @@
-## Topik Ekonomi
-## /D08_EKO_EKSPOR_IMPOR_nilai_impor_produk_menurut_golongan/*
-
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
 rm(list=ls())
-library(ggplot2)
 library(dplyr)
 
 # remove scientific numeric
@@ -62,58 +58,38 @@ df <- arrange(df, bulan)
 df$golongan_barang <- as.factor(df$golongan_barang)
 
 ## Data Visualization
-df.viz <- df
-names(df.viz) <- c('Bulan','Golongan','Nilai')
+names(df) <- c('bulan','golongan','nilai_fob')
 
-# line chart
-line_ <- ggplot(df.viz, aes(x=Bulan, y=Nilai)) +
-  geom_line(aes(color=Golongan), size=1) +
-  geom_point(aes(color=Golongan),
-             size=3,
-             shape=21,
-             fill='white') +
-  ggtitle('Laju Nilai Impor DKI Jakarta\nMenurut Golongan Barang') +
-  theme(plot.title=element_text(face='bold', size=15)) +
-  labs(y='Juta USD',
-       x='Bulan')
-line_
+# scott formula
+h <- round(3.5*sd(df$nilai)*length(df$nilai)^(-1/3))
+break_point <- c(289,579,869,1159,1449,1739)
 
-# distribution
-df.viz$Tahun <- as.factor(paste0(format(df.viz$Bulan, '%Y')))
-mean2013 <- mean(subset(df.viz, df.viz$Tahun == 2013)$Nilai)
-mean2014 <- mean(subset(df.viz, df.viz$Tahun == 2014)$Nilai)
-data_vlines <- data.frame(Tahun=levels(df.viz$Tahun),
-                          Nilai=c(mean2013,mean2014))
+counter <- function(start, end) {
+  length(which(df$nilai_fob > start & df$nilai_fob <= end))
+}
 
-h <- round(3.5*sd(df.viz$Nilai)*length(df.viz$Nilai)^(-1/3))
-dist_ <- ggplot(df.viz, aes(x=Nilai)) +
-  geom_histogram(binwidth=h,
-                 color='black',
-                 fill='white') +
-  ggtitle('Distribusi Impor DKI Jakarta Menurut Golongan Barang') +
-  theme(plot.title=element_text(face='bold', size=15)) +
-  labs(x='Juta USD',
-       y='Frekuensi') +
-  geom_vline(data=data_vlines,
-             aes(xintercept=Nilai),
-             color='red',
-             size=1,
-             alpha=.5) +
-  facet_grid(. ~ Tahun)
-dist_
+kelas_interval <- c("0-289",
+                    "290-579",
+                    "580-869",
+                    "870-1159",
+                    "1160-1449",
+                    "1450-1739")
+frekuensi <- c(counter(0,289),
+               counter(289,579),
+               counter(579,869),
+               counter(869,1159),
+               counter(1159,1449),
+               counter(1449,1739))
 
-break_point <- c(0,289,579,869,1159,1449,1739)
-distAll_ <- ggplot(df.viz, aes(x=Nilai)) +
-  geom_histogram(#breaks=break_point,
-                  binwidth=h,
-                 color='black',
-                 fill='white') +
-  ggtitle('Distribusi Impor DKI Jakarta Menurut Golongan Barang') +
-  theme(plot.title=element_text(face='bold', size=15)) +
-  labs(x='Juta USD',
-       y='Frekuensi') +
-  geom_vline(xintercept=mean(df.viz$Nilai),
-             color='red',
-             size=1,
-             alpha=.5)
-distAll_
+df.hist <- data.frame("kelas_interval"=kelas_interval,
+                      "frekuensi"=frekuensi)
+
+df.hist$frekuensi_relatif <- df.hist$frekuensi/sum(df.hist$frekuensi)
+
+sink('data.json')
+cat(toJSONarray(df))
+sink()
+
+sink('hist.json')
+cat(toJSONarray(df.hist))
+sink()

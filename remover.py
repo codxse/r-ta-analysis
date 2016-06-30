@@ -14,5 +14,4 @@ def remover(_DATA):
 	with open(_DATA, 'w') as fout:
 	    fout.writelines(data[1:])
 
-remover('data.js')
 remover('data.json')
