@@ -1,7 +1,9 @@
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
 rm(list=ls())
+library(RJSONIO)
 library(dplyr)
+source("libraries/toJSONarray.R")
 
 # remove scientific numeric
 options(scipen=999)

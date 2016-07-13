@@ -15,3 +15,4 @@ def remover(_DATA):
 	    fout.writelines(data[1:])
 
 remover('data.json')
+remover('hist.json')

@@ -104,16 +104,16 @@ dist_
 
 break_point <- c(0,289,579,869,1159,1449,1739)
 distAll_ <- ggplot(df.viz, aes(x=Nilai)) +
-  geom_histogram(#breaks=break_point,
-                  binwidth=h,
+  geom_histogram(breaks=break_point,
+                  #binwidth=h,
                  color='black',
                  fill='white') +
   ggtitle('Distribusi Impor DKI Jakarta Menurut Golongan Barang') +
   theme(plot.title=element_text(face='bold', size=15)) +
   labs(x='Juta USD',
-       y='Frekuensi') +
-  geom_vline(xintercept=mean(df.viz$Nilai),
-             color='red',
-             size=1,
-             alpha=.5)
+       y='Frekuensi')
+ # + geom_vline(xintercept=mean(df.viz$Nilai),
+ #             color='red',
+ #             size=1,
+ #             alpha=.5)
 distAll_

@@ -4,8 +4,9 @@
 getwd()
 setwd('~/Workspaces/r-ta-analysys')
 rm(list=ls())
-library(ggplot2)
 library(dplyr)
+library(RJSONIO)
+source("libraries/toJSONarray.R")
 
 # remove scientific numeric
 options(scipen=999)
@@ -14,7 +15,7 @@ options(scipen=999)
 df3 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/D10_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/D10_harga_pangan_tingkat_konsumen_maret_2015.csv'),
                 stringsAsFactors = FALSE)
 df3$Bulan <- as.Date('2015/3/1')
-  
+
 df4 <- read.csv(file.path('rawdata/DT01_eko/K04_komoditas/D10_EKO_KOMODITAS_harga_pangan_tingkat_konsumen/D10_harga_pangan_tingkat_konsumen_april_2015.csv'),
                 stringsAsFactors = FALSE)
 df4$Bulan <- as.Date('2015/4/1')
@@ -48,68 +49,41 @@ df$komoditi <- as.factor(df$komoditi)
 df$satuan <- as.factor(df$satuan)
 df$harga_per_satuan <- as.numeric(df$harga_per_satuan)
 
-names(df) <- c('Wilayah','Komoditi','Harga','Satuan','Tanggal')
-
-## Data Visualization
-df$Bulan <- as.factor(paste0(format(df$Tanggal,'%m')))
-
-## Distribution
-data_vlines <- data.frame(Wilayah=levels(df$Wilayah),
-                         Harga=c(mean(filter(df, Wilayah == 'Jakarta Barat')$Harga),
-                                 mean(filter(df, Wilayah == 'Jakarta Pusat')$Harga),
-                                 mean(filter(df, Wilayah == 'Jakarta Selatan')$Harga),
-                                 mean(filter(df, Wilayah == 'Jakarta Timur')$Harga),
-                                 mean(filter(df, Wilayah == 'Jakarta Utara')$Harga)))
+names(df) <- c('wilayah','komoditi','harga','satuan','tanggal')
 
 h <- round(3.5*sd(df$Harga)*length(df$Harga)^(-1/3))
-dist_ <- ggplot(df, aes(x=Harga)) +
-  geom_histogram(binwidth=h,
-                 color='black',
-                 fill='white') +
-  ggtitle('Distribusi Harga Pangan Tingkat Konsumen DKI Jakarta') +
-  theme(plot.title=element_text(face='bold', size=15)) +
-  labs(x='Harga per Satuan (Rp.)',
-       y='Frekuensi') +
-  geom_vline(data=data_vlines,
-             aes(xintercept=Harga),
-             color='red',
-             size=1,
-             alpha=.5) +
-  facet_grid(. ~ Wilayah)
-dist_
-
-# primitive
 break_point <- c(0,17753,35506,53259,71012,88765,106518,124271,142024)
-distAll_ <- ggplot(df, aes(x=Harga)) +
-  geom_histogram(breaks = break_point,
-                 #binwidth = h,
-                 color='black',
-                 fill='white') +
-  ggtitle('Distribusi Harga Pangan DKI Jakarta Tingkat Konsumen') +
-  theme(plot.title=element_text(face='bold', size=15)) +
-  labs(x='Harga per Satuan (Rp.)',
-       y='Frekuensi')
-# + geom_vline(data=data_vlines,
-#              xintercept=mean(df$Harga),
-#              color='red',
-#              size=1,
-#              alpha=.5)
-distAll_
+kelas_interval <- c("0-17753",
+                    "17734-35506",
+                    "35507-53259",
+                    "53260-71012",
+                    "71013-88765",
+                    "88766-106518",
+                    "106519-124271",
+                    "124272-142024")
 
-# Line chart
-line_ <- ggplot(df, aes(x=Tanggal, y=Harga/1000)) +
-  geom_line(aes(color=Komoditi),size=1) +
-  geom_point(aes(color=Komoditi),
-             size=3,
-             shape=21,
-             fill='white') +
-  labs(color='Keterangan',
-       x='Bulan',
-       y='Harga per Satuan (Ribu Rp.)') +
-  ggtitle('Laju Harga Pangan Tingkat Konsumen DKI Jakarta') +
-  theme(plot.title=element_text(face="bold", size=15)) +
-  facet_grid(. ~ Wilayah)
-line_
+counter <- function(start, end) {
+  length(which(df$harga > start & df$harga <= end))
+}
 
-# write data
-# write.csv(df, "df.csv", row.names=FALSE, na="")
+frekuensi <- c(counter(0,17753),
+               counter(17734,35506),
+               counter(35507,53259),
+               counter(53260,71012),
+               counter(71013,88765),
+               counter(88766,106518),
+               counter(106519,124271),
+               counter(124272,142024))
+
+df.hist <- data.frame("kelas_interval"=kelas_interval,
+                      "frekuensi"=frekuensi)
+
+df.hist$frekuensi_relatif <- df.hist$frekuensi/sum(df.hist$frekuensi)
+
+sink('data.json')
+cat(toJSONarray(df))
+sink()
+
+sink('hist.json')
+cat(toJSONarray(df.hist))
+sink()
